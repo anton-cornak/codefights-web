@@ -1,12 +1,13 @@
 # Code Fights
-Let the Code Fights begin! The first team to solve 5 algorithms will gain eternal glory! But first, we need to create the application that will make this possible...
+Let the Code Fights begin! The first team to solve 5 algorithms will gain eternal glory! But first, we need to create the platform that will make all of this possible...
 
 ## General requirements
 - Participants should be able to register for event.
 - Participants should be able to login to the event when it starts.
 - Participants should have problem description and a way to submit their solution.
 - The solution should be evaluated using multiple unit tests written specifically for the desired programming language and the algorithm.
-**- The solution should run in Docker**
+- Visma should have access to a lot of metrics, such as completion time, data about participants etc - this will be used for a corporate-wide research about the usage of AI technologies in software development.
+**- The solution should run in any environment flawlessly - locally and on cloud as well**
 
 # Front-end
 ## Techstack
@@ -30,9 +31,10 @@ Let the Code Fights begin! The first team to solve 5 algorithms will gain eterna
 	"ai": false,
 }
 ```
+    "ai" field is boolean whether a team used copilot/chatbots to solve problems.
 - **login** - /login - when the event starts, teams should be able to login.
 - **algorithms** - /{problemID} - problem description, area to put the code in, a button to send the solution to backend.
-- **leaderboard** - /leaderboard - real-time data, who is the winner so far? Data should be stored in SQL data.
+- **leaderboard** - /leaderboard - real-time data, who is the winner so far? Data should be stored in SQL database.
 
 # Backend [Python](https://www.python.org/) & [Golang](https://go.dev/)
 ## Techstack
@@ -51,7 +53,7 @@ Let the Code Fights begin! The first team to solve 5 algorithms will gain eterna
 	}
 	```
 	
-Obviously, this data needs to be sent to the backend from the front-end part... :) 
+Obviously, this data needs to be sent to the backend from the front-end part of the platform... :) 
 - Endpoint should return the following json structure:
 	```
 	{
@@ -60,5 +62,21 @@ Obviously, this data needs to be sent to the backend from the front-end part... 
 		"messages": ["failed unit tests"]
 	}
 	```
-	
+	Feel free to calculate performance as you think would be fair in a competition such as Code Fights. 
 - Endpoint should store data to the database, such as number of retries, score, etc
+
+# Data engineering
+- All the data should be stored in a database. 
+- Spend some hours trying to design the database that should be used for this project.
+
+## Requirements
+- We need to store data about teams, such as team members, email addresses, potentiallty their skill level, current occupation within Visma company, basically sky is the limit (and GDPR of course as well).
+- We need to have real-time information about the competition to be used as leaderboard: this should contain information about submitted solutions, performance score etc.
+- You can think about storing problem descriptions/correct solutions/set of unit tests in the database as well - this will add another layer of abstraction, so that the platform will be much more reusable for future projects.
+
+# DevOps
+- The solution will be deployed on one of the 3 big cloud providers: AWS, GCP or Azure (but most likely GCP).
+- If you'd like to go deeper, feel free to replace some of the functionality by existing Cloud services (good example might be switching database for serverless solution, such as Firestore/Firebase). 
+- All services should run in Docker.
+
+And remember: If you struggle, ask for help. 
