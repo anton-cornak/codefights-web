@@ -53,25 +53,31 @@ export default function Navbar() {
               href="/"
               className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto "
             >
-              Home
+              LEADERBOARD
             </Link>
             <Link
               href="/"
               className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto"
             >
-              Services
+              LATEST EVENTS
             </Link>
             <Link
               href="/"
               className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto"
             >
-              About us
+              UPCOMING EVENTS
             </Link>
             <Link
-              href="/"
+              href="/registration"
               className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto"
             >
-              Contact us
+              REGISTER
+            </Link>
+             <Link
+              href="/login"
+              className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto"
+            >
+              LOGIN
             </Link>
           </div>
         </div>
