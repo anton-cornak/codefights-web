@@ -1,7 +1,12 @@
 import { useState } from "react";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
+const { data: session } = useSession();
+
+  const user = session?.user;
+
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
@@ -73,12 +78,18 @@ export default function Navbar() {
             >
               REGISTER
             </Link>
-             <Link
-              href="/login"
-              className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-green-600 hover:text-white lg:inline-flex lg:w-auto"
-            >
-              LOGIN
+
+              {user ? (
+            <>
+              <button className="btn" onClick={() => signOut()}>
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link className="btn btn-outline" href="/signin">
+              Sign In
             </Link>
+            )}
           </div>
         </div>
       </nav>

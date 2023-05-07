@@ -29,12 +29,12 @@ const Registration = () => {
 
        console.log(formData);
       
-    fetch('http://10.2.130.62:9090/register-team', {
+    fetch('http://192.168.33.199:9090/register-team', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      mode: 'cors', // Add CORS mode
+      mode: 'no-cors', // Add CORS mode
   credentials: 'include', // Add credentials option
       body: JSON.stringify(formData),
     })
@@ -75,13 +75,13 @@ const Registration = () => {
 
     return (
         <div>
-        <div className="flex">
+        <div className="md:flex">
                {/* lava cast obrazovky */}
-                <div className="flex-1"> 
-            <h1 className="text-5xl text-left ml-28  mt-4 text-gray-700">REGISTRATION</h1>
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 ml-24">
+                <div className="p-8"> 
+            <div className="uppercase tracking-wide text-2xl text-grey-700 font-semibold">registration</div>
+    <form onSubmit={handleSubmit} className="block mt-1 text-lg leading-tight font-medium text-black hover:text-grey-700">
       <div className="mb-4">
-        <label htmlFor="teamname" className="block font-medium text-gray-700">
+        <label htmlFor="teamname" className="block font-medium text-gray-700 mt-6">
           Team Name
         </label>
         <input
@@ -128,7 +128,7 @@ const Registration = () => {
         </label>
         <select
           id="language"
-          className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-custom_light_grey"
+          className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
           value={languageID}
           onChange={(event) => setLanguageID(Number(event.target.value))}
         >
@@ -153,36 +153,30 @@ const Registration = () => {
           </label>
         </div>
       </div>
-      <button
-        type="submit"
-        className="px-4 py-2 text-sm font-medium text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
-      >
-        Register
-              </button>
-     <Link
-              href="/"
-              className="px-4 py-2 text-sm font-medium text-black hover:text-custom_green"
-            >
-              Already registered? Log in.
-            </Link>
+    <div className="flex flex-col items-start sm:flex-row sm:items-start">
+  <button
+    type="submit"
+    className="px-4 py-2 text-sm font-medium text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
+  >
+    Register
+  </button>
+  <Link
+    href="/"
+    className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 text-sm font-medium text-black hover:text-custom_green"
+  >
+    Already registered? Log in.
+  </Link>
+</div>
+
             </form>
                 </div>
-                
-                
-                {/* prava cast obrazovky */}
-                <div className="w-1/3 mt-10 mr-48"> 
-                  <div className="relative">
-                    
+                    <div className="md:shrink-0 mr-16 mt-10 ml-16">            
 <BoxShadowImage
         alt="Example Image"
         src="registrationImage.jpg"
         width={350}
-        height={350
-        }
-      />                         
-              
-                    
-    </div>
+        height={350}
+      />                           
   </div>
 </div>
             </div>

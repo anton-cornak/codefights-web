@@ -40,6 +40,22 @@ export default NextAuth({
       if (token && session.user) {
         session.user.role = token.role;
       }
+
+     
+     // Set the session expiration time to 7 days from now
+      const expirationDate = new Date(Date.now() + 1*60*1000);
+      session.expires = expirationDate.toISOString();
+
+      // Check if the session has expired
+      const currentTime = new Date();
+      const hasSessionExpired = expirationDate < currentTime;
+
+      // Invalidate the session if it has expired
+      if (hasSessionExpired) {
+        session.user = undefined; // Remove the user from the session
+        session.expires = expirationDate.toISOString(); // Set the expiration time to the expirationDate
+      }
+
       return session;
     },
   },

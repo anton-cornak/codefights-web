@@ -7,12 +7,6 @@ module.exports = {
     themes: ["light"],
   },
   theme: {
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: "1rem",
-      },
-    },
     extend: {
       colors: {
         custom_green: "#97A21E",

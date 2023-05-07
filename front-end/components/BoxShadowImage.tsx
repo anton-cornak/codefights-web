@@ -6,6 +6,7 @@ interface RegistrationImageProps {
   src: string;
   width: number;
   height: number;
+  layout?: "responsive" | "fixed" | "intrinsic" | "fill";
 }
 
 const ImageWrapper = styled.div`

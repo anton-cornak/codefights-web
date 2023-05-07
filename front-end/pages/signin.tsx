@@ -1,6 +1,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import BoxShadowImage from "components/BoxShadowImage";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -26,15 +27,16 @@ const SignInPage = () => {
     }
   };
   return (
-    <div className="container">
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center card shadow-md">
-          <form className="card-body w-96" onSubmit={handleSubmit}>
-            <h1 className="text-4xl my-8">Sign In</h1>
+    <div>
+        <div className="flex">
+               {/* lava cast obrazovky */}
+                <div className="flex-1"> 
+            <h1 className="text-5xl text-left ml-48 mt-28 text-gray-700">LOGIN</h1>
+          <form className="card-body w-96 max-w-md mx-auto mt-8 ml-24" onSubmit={handleSubmit}>
             {!!error && <p className="text-error">ERROR: {error}</p>}
             <input
               type="text"
-              className="input input-bordered"
+              className="input input-bordered mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
               placeholder="email"
               value={email}
               onChange={(e) => {
@@ -43,7 +45,7 @@ const SignInPage = () => {
             />
             <input
               type="password"
-              className="input input-bordered"
+              className="input input-bordered mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
               placeholder="password"
               value={password}
               onChange={(e) => {
@@ -55,6 +57,20 @@ const SignInPage = () => {
             </button>
           </form>
         </div>
+
+                  {/* prava cast obrazovky */}
+                <div className="w-1/3 mt-10 mr-48"> 
+                  <div className="relative">
+                    
+<BoxShadowImage
+        alt="Example Image"
+        src="loginImage.jpg"
+        width={350}
+        height={350
+        }
+      />                           
+    </div>
+  </div>
       </div>
     </div>
   );
