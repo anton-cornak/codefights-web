@@ -3,7 +3,7 @@ go/
 ├── api/
 │ ├── handlers/
 │ │ ├── middleware.go (Common middleware functions)
-│ │ ├── plate_recognition.go (License plate recognition request handler)
+│ │ ├── handlers.go (Handling code evaluation requests)
 │ │ └── health.go (Health check endpoint - optional)
 │ │
 │ ├── services/
