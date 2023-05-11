@@ -3,7 +3,6 @@
 import { FC, useState } from 'react'
 import Button from '@/ui/Button'
 import { signIn, signOut } from 'next-auth/react'
-import { toNamespacedPath } from 'path'
 import { toast } from './ui/Toast'
 
 interface SignOutButtonProps {
