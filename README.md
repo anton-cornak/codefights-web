@@ -79,4 +79,8 @@ Obviously, this data needs to be sent to the backend from the front-end part of 
 - If you'd like to go deeper, feel free to replace some of the functionality by existing Cloud services (good example might be switching database for serverless solution, such as Firestore/Firebase). 
 - All services should run in Docker.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ad1aa7e (design)
 And remember: If you struggle, ask for help. 

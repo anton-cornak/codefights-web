@@ -24,7 +24,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+<<<<<<< HEAD
 .yarn
+=======
+>>>>>>> ad1aa7e (design)
 
 # local env files
 .env*.local

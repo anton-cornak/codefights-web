@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/fonts/Space-Grotesk/SpaceGrotesk-Bold.woff') format('woff'),
+         url('/fonts/Space-Grotesk/SpaceGrotesk-Light.woff') format('woff'),
+         url('/fonts/Space-Grotesk/SpaceGrotesk-Medium.woff') format('woff'),
+         url('/fonts/Space-Grotesk/SpaceGrotesk-Regular.woff') format('woff'),
+         url('/fonts/Space-Grotesk/SpaceGrotesk-SemiBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  
+  
+  
+  
+  

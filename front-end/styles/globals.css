@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap');
 
+=======
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&family=Raleway:wght@300&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+>>>>>>> ad1aa7e (design)
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 .dark .three-d {
     text-shadow: 0px 5px 0px #4c5211;
 }
@@ -67,3 +72,8 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
+=======
+* {
+        font-family: 'BrunoAce';
+    }
+>>>>>>> ad1aa7e (design)
