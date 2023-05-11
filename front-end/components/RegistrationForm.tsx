@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import BoxShadowImage from "./BoxShadowImage";
+import { buttonVariants } from './Button'
 
 const languageOptions = [
   { value: 1, label: "Python" },
@@ -186,7 +187,7 @@ const handleEmailChange = (
               <div className="flex flex-col items-start sm:flex-row sm:items-start">
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
+                  className={buttonVariants({ variant: 'default' })}
                 >
                   Register
                 </button>

@@ -11,9 +11,27 @@
     "prod:build": "NODE_ENV=production yarn run build:css && yarn run build"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+=======
+    "@firebase/firestore": "^3.11.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/": "fortawesome/react-fontawesome",
+    "@types/node": "18.15.3",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "components": "^0.1.0",
+    "daisyui": "^2.51.6",
+>>>>>>> be81eb59d723c48e3f1c5153bda0155b3b24df6e
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",

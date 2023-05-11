@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable @next/next/no-page-custom-font */
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
@@ -6,10 +7,13 @@ import Image from "next/image";
 
 
 
+=======
+>>>>>>> be81eb59d723c48e3f1c5153bda0155b3b24df6e
 import '../pages/'
 import Link from "next/link";
 import StraightLine from "../components/StraightLine";
 export default function Home() {
+<<<<<<< HEAD
   return (
     <div>
       <Head>
@@ -18,6 +22,11 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&family=Raleway:wght@300&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"></link>
         
+=======
+    return (
+      <>
+        <div className=' bg-black relative h-screen overflow-x-hidden'>
+>>>>>>> be81eb59d723c48e3f1c5153bda0155b3b24df6e
 
       </Head>
       <Navbar />
