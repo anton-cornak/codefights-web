@@ -7,6 +7,9 @@ module.exports = {
     "./pages/**/*.{js,jsx,ts,tsx,css}",
     "./components/**/*.{js,jsx,ts,tsx,css}",
   ],
+  daisyui: {
+    themes: ["light"],
+  },
   theme: {
     container: {
       center: true,
