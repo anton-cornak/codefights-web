@@ -1,5 +1,4 @@
 
-import Navbar from '@/components/Navbar';
 import Button, { buttonVariants } from '@/components/ui/Button';
 import LargeHeading from '@/components/ui/LargeHeading';
 import TextAnimation from '@/components/ui/TextAnimation'
@@ -17,7 +16,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div className=' bg-black relative h-screen overflow-x-hidden'>
 
         <div className='container flex flex-col justify-start items-center w-full h-fit'>

@@ -1,8 +1,5 @@
 import Link from 'next/link'
 import { buttonVariants } from './Button'
-import SignInButton from './SignInButton'
-import BoxShadowImage from "./BoxShadowImage";
-
 
 const Navbar = () => {
     
@@ -30,13 +27,16 @@ const Navbar = () => {
             <div className='container max-width-7xl mx-auto w-full flex justify-center items-center'>
 
  
-                <div className='hidden md:flex gap-4'>
-                            <Link className={buttonVariants({ variant: 'default' })}
-                                href='/register'>
-                                REGISTER
-                            </Link>
+                <div className='hidden md:flex gap-4 uppercase'>
+                    <Link className={buttonVariants({ variant: 'default' })}
+                                href='/registration'>
+                                register
+                    </Link>
+                    <Link className={buttonVariants({ variant: 'default' })}
+                                href='/signin'>
+                                login
+                    </Link>
                        
-                    <SignInButton />
 
                 </div>
             </div>

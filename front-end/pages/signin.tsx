@@ -1,7 +1,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import BoxShadowImage from "components/BoxShadowImage";
+import BoxShadowImage from "@/components/BoxShadowImage";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
