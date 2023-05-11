@@ -6,6 +6,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { buttonVariants } from "@/components/Button";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -92,10 +93,12 @@ const SignInPage = () => {
             )}
           </div>
 
-          <br />
-          <button className="ml-60 mt-4 uppercase px-4 py-2 text-sm font-medium text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green" type="submit">
+            <br />
+            <div className="ml-48">
+          <button type="submit" className={buttonVariants({ variant: 'default' })}>
             Login
-          </button>
+              </button>
+              </div>
         </form>
       </div>
       <div className="md:shrink-0 mr-16 mt-10 ml-16">
