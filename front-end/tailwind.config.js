@@ -4,8 +4,8 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx,css}",
+    "./components/**/*.{js,jsx,ts,tsx,css}",
   ],
   theme: {
     container: {
@@ -26,6 +26,9 @@ module.exports = {
         'green': '#97A21E',
         'dark-green': '#4c5211',
         "light-green": '#CFDE38',
+        'color1':'#BDB6D0',
+        'color2':'#97A21E',
+        'bgBlack':'#000000',
      
 
       },

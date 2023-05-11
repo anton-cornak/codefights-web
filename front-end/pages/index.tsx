@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 
+import '../pages/'
 export default function Home() {
     return (
       <>
