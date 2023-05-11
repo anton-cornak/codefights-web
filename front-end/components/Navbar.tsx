@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { buttonVariants } from '@/ui/Button'
-import SignInButton from '@/components/SignInButton'
-
-import ThemeToggle from '@/components/ThemeToggle'
+import { buttonVariants } from './Button'
+import SignInButton from './SignInButton'
+import BoxShadowImage from "./BoxShadowImage";
 
 
 const Navbar = () => {
@@ -38,8 +37,6 @@ const Navbar = () => {
                             </Link>
                        
                     <SignInButton />
-                    
-                    <ThemeToggle />
 
                 </div>
             </div>
@@ -47,4 +44,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;
