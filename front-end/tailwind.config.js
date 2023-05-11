@@ -1,10 +1,17 @@
 module.exports = {
   content: [
-    "./pages/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx,css}",
+    "./components/**/*.{js,jsx,ts,tsx,css}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'color1':'#BDB6D0',
+        'color2':'#97A21E',
+        'bgBlack':'#000000',
+      }
+      
+    },
   },
   plugins: [
     require("@tailwindcss/typography"),
