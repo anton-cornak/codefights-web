@@ -31,6 +31,7 @@ const HandleSubmitTask = async (codeSnippet: string) => {
       'teamname': 'marek'
     }
 
+
     
 
     // Send the POST request
@@ -44,12 +45,7 @@ const HandleSubmitTask = async (codeSnippet: string) => {
   }
 
   // data from login - hardcoded string Python
-
-  // create axios post request
-  // wait for reponse
 }
-
-
 
 export default function Home() {
   const [inputValue, setInputValue] = useState('');

@@ -1152,6 +1152,12 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
+"@types/@fortawesome/react-fontawesome":
+  version "0.2.0"
+  resolved "https://codeload.github.com/fortawesome/react-fontawesome/tar.gz/976c1adc59934b34e52b11c03dda4bd69831a6df"
+  dependencies:
+    prop-types "^15.8.1"
+
 "@types/bcrypt@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-5.0.0.tgz#a835afa2882d165aff5690893db314eaa98b9f20"
