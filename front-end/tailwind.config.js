@@ -1,7 +1,7 @@
 module.exports = {
   content: [
-    "./pages/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx,css}",
+    "./components/**/*.{js,jsx,ts,tsx,css}",
   ],
   daisyui: {
     themes: ["light"],
@@ -9,12 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        custom_green: "#97A21E",
-        custom_light_grey: "#BDB6D0",
-      },
-      boxShadow: {
-        custom: "0 50px 25px -24px rgb(0 0 0 / 0.3)",
-      },
+        'color1':'#BDB6D0',
+        'color2':'#97A21E',
+        'bgBlack':'#000000',
+      }
+      
     },
   },
   plugins: [
