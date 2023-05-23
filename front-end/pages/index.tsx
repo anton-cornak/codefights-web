@@ -1,15 +1,12 @@
 import '../pages/'
+
 export default function Home() {
     return (
       <>
-        <div className=' bg-black relative h-screen overflow-x-hidden'>
-
-        <div className='container flex flex-col justify-start items-center w-full h-fit'></div>
-
-        <div className="inline-flex items-center justify-center w-full">
-                <hr className="h-px w-[85rem] bg-white border-0 dark:bg-white "></hr>
-            </div>
-
-            </div>
+       <main className="h-screen w-screen flex flex-col items-center justify-center  bg-white dark:bg-black">
+        <h1 className="text-3xl font-bold text-blue-500 dark:text-red-500">
+          This is homepage
+          </h1>
+      </main>
         </>)
 }

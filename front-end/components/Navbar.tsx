@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { buttonVariants } from './Button'
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import Toggle from '../components/Toggle';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -48,6 +49,7 @@ const Navbar = () => {
                             login
                         </Link>
                     )}
+                    <Toggle/>
                 </div>
             </div>
         </div>
