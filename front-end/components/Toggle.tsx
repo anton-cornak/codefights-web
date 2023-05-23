@@ -1,3 +1,5 @@
+// Changing dark/light theme with button in Navbar
+
 import { useTheme } from "next-themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";

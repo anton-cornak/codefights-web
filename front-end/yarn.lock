@@ -556,6 +556,11 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.10.0.tgz#92ee8c88682bb1ff0938b751f88f108e7a73165a"
   integrity sha512-2I8y+vJVrPfPFJrnRGpao1Qc2Gu7wmYoo5ed2s5zK/DUGgcyY1Yr/xC0YdnKM4pi7rG3HqwW9ehAKUXoTMLdoA==
 
+"@fontsource/bruno-ace-sc@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/bruno-ace-sc/-/bruno-ace-sc-5.0.1.tgz#3bfdf6a564736052d8bc1e0748e91c994b89865e"
+  integrity sha512-/cyyHxYbMukFtT6ftGTB0Kqrh7ilLFaFFcVDEGKRTuPNzr7gaQTluwqmXZ0f2DT5H3RtiAHvVBVCv51b/fJUbA==
+
 "@fortawesome/fontawesome-common-types@6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.4.0.tgz#88da2b70d6ca18aaa6ed3687832e11f39e80624b"
