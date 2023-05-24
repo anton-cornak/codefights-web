@@ -15,8 +15,8 @@ var (
 
 type Task struct {
 	Language string `json:"language"`
-	Method   string `json:"method"`
-	Code     string `json:"code"`
+
+	Code string `json:"code"`
 }
 
 func SendCodeToCSharp(code Task, context *gin.Context) {
@@ -29,7 +29,7 @@ func SendCodeToCSharp(code Task, context *gin.Context) {
 
 	resp, err := http.Post(csharpURL, "application/json", bytes.NewBuffer(jsonBytes))
 	if err != nil {
-		context.AbortWithError(http.StatusInternalServerError, err)
+		_ = context.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	fmt.Println(resp)
@@ -40,13 +40,23 @@ func SendCodeToCSharp(code Task, context *gin.Context) {
 		})
 		return
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 	responseBody := string(bodyBytes)
 	fmt.Println(responseBody)
 	// Return the response to the client
 	context.JSON(http.StatusOK, gin.H{
 		"response": responseBody,
 	})
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 }

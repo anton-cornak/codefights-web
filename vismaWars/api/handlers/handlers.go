@@ -7,6 +7,7 @@ import (
 	userJson "Visma/helpers"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -23,26 +24,29 @@ type TeamJson struct {
 	Ai         bool     `json:"ai"`
 }
 
-func Login(context *gin.Context) {
+func LoginHandler(context *gin.Context) {
 	fmt.Println(tokenMap)
 
-	var userJson userJson.UserJson
-	if err := context.ShouldBindJSON(&userJson); err != nil {
+	var user userJson.UserJson
+	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	value := tokenMap[userJson]
-	fmt.Println(userJson.UserName, userJson.Password)
-	fmt.Println(db.CheckCredentials(userJson.UserName, userJson.Password))
+	value := tokenMap[user]
+	fmt.Println(user.UserName, user.Password)
+	fmt.Println(db.CheckCredentials(user.UserName, user.Password))
 
 	if len(value) == 0 {
 
-		if db.CheckCredentials(userJson.UserName, userJson.Password) {
+		if db.CheckCredentials(user.UserName, user.Password) {
 
 			HeaderToken := helpers.GenerateToken()
-			tokenMap[userJson] = HeaderToken
+			user.Role = db.GetUserRoleByUsername(user.UserName, user.Password)
+			tokenMap[user] = HeaderToken
 			context.JSON(http.StatusOK, gin.H{"Token": HeaderToken})
+			fmt.Println(user.UserName)
+			fmt.Println(tokenMap)
 
 		} else {
 			context.JSON(http.StatusUnauthorized, gin.H{"error": "bad credentials"})
@@ -54,8 +58,7 @@ func Login(context *gin.Context) {
 
 }
 
-// TODO make this method only take token for logout
-func Logout(context *gin.Context) {
+func LogoutHandler(context *gin.Context) {
 	var HeaderToken = context.GetHeader("token")
 
 	if helpers.ContainsValue(tokenMap, HeaderToken) {
@@ -70,7 +73,7 @@ func Logout(context *gin.Context) {
 	fmt.Println(tokenMap)
 
 }
-func Registration(context *gin.Context) {
+func RegistrationHandler(context *gin.Context) {
 	var body = context.Request.Body
 
 	fmt.Println(body)
@@ -91,11 +94,11 @@ func Registration(context *gin.Context) {
 		2.generate password for email !done
 		3.write in database password and email in USER !done
 		4.write in team database  !done
-		5.send email with Login !done
+		5.send email with LoginHandler !done
 		6.if everything pass send statusOK
 	*/
 }
-func SubmitTask(context *gin.Context) {
+func SubmitTaskHandler(context *gin.Context) {
 	var body = context.Request.Body
 	var code services.Task
 
@@ -129,13 +132,17 @@ func SubmitTask(context *gin.Context) {
 	*/
 
 }
-func SubmitNewChallenge(context *gin.Context) {
+func SubmitNewChallengeHandler(context *gin.Context) {
+	token := context.GetHeader("token")
+	var user userJson.UserJson
+	user = helpers.GetKeyByValue(tokenMap, token)
 
-	var role = context.GetHeader("role")
-	if len(role) == 0 {
+	if len(user.Role) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
 		return
 	}
-	if role != "admin" {
+
+	if user.Role != "admin" {
 		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant add task"})
 		return
 	}
@@ -147,7 +154,118 @@ func SubmitNewChallenge(context *gin.Context) {
 		return
 	} else {
 		db.WriteProblemInDB(task.Language, task.Code)
-		context.JSON(http.StatusCreated, gin.H{"task": "created sucessfully"})
+		context.JSON(http.StatusCreated, gin.H{"task": "created successfully"})
 
 	}
+}
+func GetTasksHandler(context *gin.Context) {
+
+	tasks, err := db.GetTasksFromFirestore()
+	if err != nil {
+		log.Printf("Failed to get tasks: %v", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	context.JSON(http.StatusOK, tasks)
+}
+func GetLanguageTaskHandler(context *gin.Context) {
+	language := context.GetHeader("language")
+	tasks, err := db.GetTasksFromFirestoreInLanguageThatIsChosen(language)
+	if err != nil {
+		log.Printf("Failed to get tasks: %v", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	context.JSON(http.StatusOK, tasks)
+}
+func EditTaskHandler(context *gin.Context) {
+
+	token := context.GetHeader("token")
+	var user userJson.UserJson
+	user = helpers.GetKeyByValue(tokenMap, token)
+	if len(user.Role) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
+		return
+	}
+	if user.Role != "admin" {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant edit task"})
+		return
+	}
+
+	// Get the task ID from the URL path
+	taskID := context.Param("id")
+
+	// Parse the updated task information from the request body
+	var updatedTask db.UpdatedTask
+	if err := context.ShouldBindJSON(&updatedTask); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	// Call the function to update the task in Firestore
+	err := db.UpdateTaskInFirestore(taskID, updatedTask)
+	if err != nil {
+		log.Printf("Failed to update task: %v", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Task updated successfully"})
+}
+func AddTaskHandler(context *gin.Context) {
+	token := context.GetHeader("token")
+	var user userJson.UserJson
+	user = helpers.GetKeyByValue(tokenMap, token)
+	if len(user.Role) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
+		return
+	}
+	if user.Role != "admin" {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant add task"})
+		return
+	}
+
+	var task db.Task
+	if err := context.ShouldBindJSON(&task); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	err := db.AddTaskToFirestore(task)
+	if err != nil {
+		log.Printf("Failed to add task: %v", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Task added successfully"})
+}
+func RemoveTaskByIDHandler(context *gin.Context) {
+	token := context.GetHeader("token")
+	var user userJson.UserJson
+	user = helpers.GetKeyByValue(tokenMap, token)
+	if len(user.Role) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
+		return
+	}
+	if user.Role != "admin" {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant remove task"})
+		return
+	}
+	// Get the task ID from the path parameter
+	taskID := context.Param("id")
+
+	// Check if the request contains a valid authentication token
+
+	// Call the function to remove the task from Firestore
+	err := db.RemoveTaskFromFirestore(taskID)
+	if err != nil {
+		log.Printf("Failed to remove task: %v", err)
+		context.JSON(http.StatusBadRequest, gin.H{"error": "task doesnt exist"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Task removed successfully"})
 }

@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net"
 	"net/smtp"
+	"reflect"
 )
 
 type TeamJson struct {
@@ -20,6 +21,7 @@ type UserJson struct {
 	UserName string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Role     string `json:"role"`
 }
 
 func GenerateToken() string {
@@ -35,7 +37,7 @@ func GenerateToken() string {
 		num = rand.Intn(90-49+1) + 49
 
 		if (num < 57 && num > 49) || (num < 90 && num > 65) {
-			token = token + string(num)
+			token = token + string(rune(num)) //rune!!!
 		} else {
 			i--
 		}
@@ -51,7 +53,7 @@ func GeneratePassword() string {
 		num = rand.Intn(90-49+1) + 49
 
 		if (num < 57 && num > 49) || (num < 90 && num > 65) {
-			password = password + string(num)
+			password = password + string(rune(num))
 		} else {
 			i--
 		}
@@ -143,13 +145,13 @@ func ContainsValue(m map[UserJson]string, value string) bool {
 	return false
 }
 
-func GetKeyByValue(m map[string]string, value string) string {
+func GetKeyByValue(m map[UserJson]string, value string) UserJson {
 	for key, val := range m {
 		if val == value {
 			return key
 		}
 	}
-	return ""
+	return UserJson{}
 }
 
 //	func FindKeyByValue(m map[UserJson]string, value string) string {
@@ -168,7 +170,19 @@ func FindKeyByValue(m map[UserJson]string, value string) UserJson {
 	}
 	return UserJson{}
 }
-func ContainsKey(m map[string]string, key string) bool {
-	_, ok := m[key]
-	return ok
+
+func ContainsKey(m interface{}, key string) bool {
+	v := reflect.ValueOf(m)
+	if v.Kind() != reflect.Map {
+		return false
+	}
+
+	iter := v.MapRange()
+	for iter.Next() {
+		if reflect.DeepEqual(iter.Key().Interface(), key) {
+			return true
+		}
+	}
+
+	return false
 }
