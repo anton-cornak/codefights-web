@@ -78,6 +78,7 @@ func RegistrationHandler(context *gin.Context) {
 
 	fmt.Println(body)
 	var teamJson TeamJson
+
 	if err := context.ShouldBindJSON(&teamJson); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -98,6 +99,9 @@ func RegistrationHandler(context *gin.Context) {
 		6.if everything pass send statusOK
 	*/
 }
+
+//TODO pri tomto neviem ci submit task mam zobrat v headeri team name alebo cisto len token a podla toho to zapisem v db
+
 func SubmitTaskHandler(context *gin.Context) {
 	var body = context.Request.Body
 	var code services.Task
@@ -132,18 +136,9 @@ func SubmitTaskHandler(context *gin.Context) {
 	*/
 
 }
-func SubmitNewChallengeHandler(context *gin.Context) {
-	token := context.GetHeader("token")
-	var user userJson.UserJson
-	user = helpers.GetKeyByValue(tokenMap, token)
-
-	if len(user.Role) == 0 {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
-		return
-	}
-
-	if user.Role != "admin" {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant add task"})
+func SubmitNewTaskHandler(context *gin.Context) {
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 	var task services.Task
@@ -182,15 +177,8 @@ func GetLanguageTaskHandler(context *gin.Context) {
 }
 func EditTaskHandler(context *gin.Context) {
 
-	token := context.GetHeader("token")
-	var user userJson.UserJson
-	user = helpers.GetKeyByValue(tokenMap, token)
-	if len(user.Role) == 0 {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
-		return
-	}
-	if user.Role != "admin" {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant edit task"})
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -215,15 +203,8 @@ func EditTaskHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Task updated successfully"})
 }
 func AddTaskHandler(context *gin.Context) {
-	token := context.GetHeader("token")
-	var user userJson.UserJson
-	user = helpers.GetKeyByValue(tokenMap, token)
-	if len(user.Role) == 0 {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
-		return
-	}
-	if user.Role != "admin" {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant add task"})
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -243,23 +224,13 @@ func AddTaskHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Task added successfully"})
 }
 func RemoveTaskByIDHandler(context *gin.Context) {
-	token := context.GetHeader("token")
-	var user userJson.UserJson
-	user = helpers.GetKeyByValue(tokenMap, token)
-	if len(user.Role) == 0 {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "no role assigned"})
-		return
-	}
-	if user.Role != "admin" {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": "user cant remove task"})
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 	// Get the task ID from the path parameter
 	taskID := context.Param("id")
 
-	// Check if the request contains a valid authentication token
-
-	// Call the function to remove the task from Firestore
 	err := db.RemoveTaskFromFirestore(taskID)
 	if err != nil {
 		log.Printf("Failed to remove task: %v", err)
@@ -268,4 +239,60 @@ func RemoveTaskByIDHandler(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Task removed successfully"})
+}
+func AddCompetitionHandler(context *gin.Context) {
+	var competitionData helpers.Competition
+	if err := context.ShouldBindJSON(&competitionData); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON format"})
+		return
+	}
+
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	newCompetition := helpers.Competition{
+		Description: competitionData.Description,
+		EName:       competitionData.EName,
+	}
+	if len(newCompetition.EName) == 0 || len(newCompetition.Description) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "invalid format of JSON"})
+		return
+	}
+	err := db.AddCompetition(newCompetition)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "database isnt working"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Competition added successfully"})
+}
+func StartCompetitionHandler(context *gin.Context) {
+	id := context.Param("id")
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	err := db.StartTimeInDatabase(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Competition added successfully"})
+
+}
+func EndCompetitionHandler(context *gin.Context) {
+	id := context.Param("id")
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := db.EndTimeInDatabase(id)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Competition ended successfully"})
 }

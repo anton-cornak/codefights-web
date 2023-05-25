@@ -2,7 +2,9 @@ package helpers
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"math/rand"
 	"net"
 	"net/smtp"
@@ -22,6 +24,11 @@ type UserJson struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Role     string `json:"role"`
+}
+
+type Competition struct {
+	Description string `firestore:"description"`
+	EName       string `firestore:"ename"`
 }
 
 func GenerateToken() string {
@@ -185,4 +192,29 @@ func ContainsKey(m interface{}, key string) bool {
 	}
 
 	return false
+}
+func GetUserByToken(tokenMap map[UserJson]string, token string) (UserJson, bool) {
+	for user, t := range tokenMap {
+		if t == token {
+			return user, true
+		}
+	}
+	return UserJson{}, false
+}
+func ValidateAndAuthorizeAdmin(context *gin.Context, tokenMap map[UserJson]string) error {
+	token := context.GetHeader("token")
+
+	user, isInMap := GetUserByToken(tokenMap, token)
+	if !isInMap {
+		return errors.New("invalid token")
+	}
+	if len(user.Role) == 0 {
+		return errors.New("no role assigned")
+	}
+
+	if user.Role != "admin" {
+		return errors.New("user is unauthorised to do this")
+	}
+
+	return nil
 }

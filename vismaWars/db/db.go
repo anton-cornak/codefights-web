@@ -4,11 +4,15 @@ import (
 	"Visma/helpers"
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"fmt"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"log"
 	"strconv"
+	"time"
 )
 
 var (
@@ -377,23 +381,149 @@ func RemoveTaskFromFirestore(taskID string) error {
 		}
 	}(client)
 
-	// Replace "tasks" with the name of your Firestore collection that stores tasks
 	docRef := client.Collection("tasks").Doc(taskID)
 
-	taskHighestId, _ := strconv.Atoi(GetIdInDB("tasks"))
-	taskIdInInput, _ := strconv.Atoi(taskID)
-	err = fmt.Errorf("task with this ID doesnt exists")
-	fmt.Println(taskHighestId)
-	fmt.Println(taskIdInInput)
+	isIdExisting, err := DocumentWithIdExists(ctx, client, "tasks", taskID)
 
-	if taskHighestId-1 < taskIdInInput {
-		return err
+	if !isIdExisting {
+		return errors.New("task by this id doesnt exists")
 	}
-	// Delete the task document
 	_, err = docRef.Delete(context.Background())
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+func DocumentWithIdExists(ctx context.Context, client *firestore.Client, collectionName, documentID string) (bool, error) {
+	docRef := client.Collection(collectionName).Doc(documentID)
+	docSnap, err := docRef.Get(ctx)
+
+	if err != nil {
+
+		if statusOfDocument, ok := status.FromError(err); ok && statusOfDocument.Code() == codes.NotFound {
+
+			return false, nil
+		}
+
+		return false, err
+	}
+
+	if docSnap.Exists() {
+
+		return true, nil
+	}
+
+	return false, nil
+}
+
+func AddCompetition(competition helpers.Competition) error {
+
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	_, err = client.Collection("competition").Doc(GetIdInDB("competition")).Set(ctx, map[string]interface{}{
+		"description": competition.Description,
+		"ename":       competition.EName,
+	})
+	if err != nil {
+		log.Fatalf("Failed to add document: %v", err)
+	}
+	err = client.Close()
+	if err != nil {
+		return err
+	}
+	return err
+
+}
+func StartTimeInDatabase(id string) error {
+	hasStarted, err := HasStartOrEndedDate(id, "start")
+	if hasStarted {
+		return errors.New("its already ongoing")
+	}
+	// Create a Firestore client
+	ctx := context.Background()
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	if err != nil {
+		return fmt.Errorf("failed to create Firestore client: %v", err)
+	}
+	defer func(client *firestore.Client) {
+		err := client.Close()
+		if err != nil {
+
+		}
+	}(client)
+
+	// Get the reference to the competition document by name
+	docRef := client.Collection("competition").Doc(id)
+
+	// Update the start time field with the new value
+	_, err = docRef.Update(ctx, []firestore.Update{
+		{
+			Path:  "start",
+			Value: time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("failed to update competition start time: %v", err)
+	}
+
+	return nil
+}
+func EndTimeInDatabase(id string) error {
+	hasEnded, err := HasStartOrEndedDate(id, "end")
+	if hasEnded {
+		return errors.New("already done")
+	}
+	ctx := context.Background()
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	if err != nil {
+		return fmt.Errorf("failed to create Firestore client: %v", err)
+	}
+	defer func(client *firestore.Client) {
+		err := client.Close()
+		if err != nil {
+
+		}
+	}(client)
+
+	docRef := client.Collection("competition").Doc(id)
+
+	_, err = docRef.Update(ctx, []firestore.Update{
+		{
+			Path:  "end",
+			Value: time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("failed to update competition end time: %v", err)
+	}
+
+	return nil
+}
+func HasStartOrEndedDate(id string, startOrEnd string) (bool, error) {
+	ctx := context.Background()
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	if err != nil {
+		return false, fmt.Errorf("failed to create Firestore client: %v", err)
+	}
+	defer func(client *firestore.Client) {
+		err := client.Close()
+		if err != nil {
+
+		}
+	}(client)
+
+	docRef := client.Collection("competition").Doc(id)
+
+	docSnap, err := docRef.Get(ctx)
+	if err != nil {
+		return false, fmt.Errorf("failed to get competition document: %v", err)
+	}
+
+	data := docSnap.Data()
+	startDate, exists := data[startOrEnd]
+	if !exists || startDate == nil {
+		return false, nil
+	}
+
+	return true, nil
 }
