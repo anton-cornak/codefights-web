@@ -10,8 +10,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <SessionProvider>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>VISMA WARS</title>
+        <link rel="icon" href="/gulicka.png" />
       </Head>
       <Navbar />
         <Component {...pageProps} />
