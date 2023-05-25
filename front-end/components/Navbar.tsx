@@ -13,10 +13,13 @@ const Navbar = () => {
   const handleClick = () => {
     setActive(!active);
   };
+  
+
 
     return (
-        <div className='sticky w-full backdrop-blur-sm bg-white/75 dark:bg-black z-50 top-0 left-0 right-0 h-20 border-b border-slate-300 dark:border-slate-600 shadow-sm flex items-center justify-center '>
-            <div className='container max-width-7xl mx-auto w-full flex justify-center items-center'>
+        <div className='sticky w-full backdrop-blur-sm bg-white/75 dark:bg-black z-50 top-0 left-0 right-0 h-20 border-b border-slate-300 dark:border-slate-600 shadow-sm flex '>
+            
+            <div className='container flex gap-1 justify-center items-center'>
                 <Link href='/' className={buttonVariants({ variant: 'link' })}>
                     HOME
                 </Link>
@@ -25,13 +28,21 @@ const Navbar = () => {
                     EVENTS
                 </Link>
 
+                <Link href='/upcomingevents' className={buttonVariants({ variant: 'link' })}>
+                    UPCOMING_EVENTS
+                </Link>
+
+                <Link href='/latestevents' className={buttonVariants({ variant: 'link' })}>
+                    LATEST_EVENTS
+                </Link>
+
                 <Link href='/leaderboard' className={buttonVariants({ variant: 'link' })}>
                     LEADERBOARD
                 </Link>
             </div>
 
-            <div className='container max-width-7xl mx-auto w-full flex justify-center items-center'>
-                <div className='hidden md:flex gap-4 uppercase'>
+            <div className='container w-64 flex justify-center items-center'>
+                <div className='hidden md:flex  gap-4 uppercase'>
                     <Link className={buttonVariants({ variant: 'default' })}
                                 href='/registration'>
                                 register
