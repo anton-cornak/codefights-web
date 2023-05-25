@@ -36,6 +36,7 @@ func main() {
 	router.POST("/start-competition/:id", handlers.StartCompetitionHandler) //start competition
 	//ADMIN
 	router.POST("/end-competition/:id", handlers.EndCompetitionHandler) //ends competition
+	//this is try comment
 
 	router.Use(handlers.CorsMiddleware())
 	err := router.Run("" + helpers.IpAddress() + ":9090")
