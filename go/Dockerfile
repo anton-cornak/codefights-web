@@ -1,17 +1,19 @@
-# syntax=docker/dockerfile:1
+FROM golang:1.20
 
-FROM golang:1.16-alpine
-
+# Set the working directory to /app
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Download and install any required dependencies
 RUN go mod download
 
-COPY *.go ./
+# Build the Go application
+RUN go build -o app
 
-RUN go build -o /docker-gs-ping
+# Expose port 8080 for the application
+EXPOSE 9090
 
-EXPOSE 8080
-
-CMD [ "/docker-gs-ping" ]
+# Set the default command to run when the container starts
+CMD ["./app"]
