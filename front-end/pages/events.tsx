@@ -73,7 +73,7 @@ export default function Events() {
 									onChange={handleChange}
 								/>
 								<textarea placeholder="tests"
-									className="h-full w-full mx-left focus:ring-green focus:border-green w-1/2 resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
+									className="h-full w-full mx-left focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
 								 />
 							</div>
 						</div>

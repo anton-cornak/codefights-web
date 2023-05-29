@@ -3,14 +3,8 @@ import '../pages/'
 import StraightLine from '@/components/StraightLine';
 import Image from 'next/image';
 export default function Home() {
-    return (
-      <div className=' bg-black relative h-screen overflow-x-hidden'>
-
-      
-
-      
-
-
+  return (
+    <div className=' bg-black relative h-screen overflow-x-hidden'>
       <div className=" bg-bgBlack text-color1">
         {/* INTRO */}
         <div>
@@ -30,8 +24,6 @@ export default function Home() {
                 IMPOSSIBLE TO SOLVE ALONE.</p>
             </div>
           </div>
-
-
           <StraightLine />
 
         </div>
@@ -93,9 +85,6 @@ export default function Home() {
               <p>PUT YOUR CODING SKILLS TO THE TEST WITH OUR PLATFORM’S PROGRAMMING PROBLEMS AND WORK WITH OTHERS TO FIND SOLUTIONS.</p>
             </div>
           </div>
-
-
-
           <StraightLine />
 
         </div>
@@ -116,13 +105,8 @@ export default function Home() {
         </div>
         {/* REGISTRATION */}
 
-
-
-
-
-
       </div>
 
     </div >
-);
+  );
 }

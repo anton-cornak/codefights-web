@@ -48,7 +48,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/Score"  ],
   "exclude": [
     "node_modules"
   ]

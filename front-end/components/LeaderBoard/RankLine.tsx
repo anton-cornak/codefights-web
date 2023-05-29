@@ -3,10 +3,10 @@ interface RankLineProps {
     teamName: string,
     score: string
 }
-const RankLineLeft = ({ position, teamName, score }: RankLineProps): JSX.Element => {
+const RankLine = ({ position, teamName, score }: RankLineProps): JSX.Element => {
     return (
-
-        <div className="inline-flex gap-32  my-3">
+        
+        <div className="inline-flex gap-32 my-3">
             <div className='flex text-3xl'>
                 <h1>{position}</h1>
             </div>
@@ -18,10 +18,8 @@ const RankLineLeft = ({ position, teamName, score }: RankLineProps): JSX.Element
             </div>
         </div>
 
-
     );
 }
-
-export default RankLineLeft;
+export default RankLine;
 
 
