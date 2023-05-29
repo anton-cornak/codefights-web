@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Visma/models"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -13,7 +14,7 @@ var (
 	pythonURL = "http://10.11.65.60:8090/receive_string"
 )
 
-func SendCodeToPython(code Task, context *gin.Context) {
+func SendCodeToPython(code models.Task, context *gin.Context) {
 	jsonBytes, err := json.Marshal(code)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "bad code"})

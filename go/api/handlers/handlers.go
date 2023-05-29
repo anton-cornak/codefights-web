@@ -4,7 +4,9 @@ import (
 	"Visma/api/services"
 	"Visma/db"
 	"Visma/helpers"
-	userJson "Visma/helpers"
+	"go.uber.org/zap"
+
+	"Visma/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -13,31 +15,20 @@ import (
 )
 
 var (
-	tokenMap = map[userJson.UserJson]string{}
+	tokenMap = map[models.UserJson]string{}
 )
 
-type TeamJson struct {
-	TeamName   string   `json:"teamname"`
-	Members    []string `json:"members"`
-	Emails     []string `json:"emails"`
-	LanguageID int      `json:"languageID"`
-	Ai         bool     `json:"ai"`
-}
-
 func LoginHandler(context *gin.Context) {
-	fmt.Println(tokenMap)
 
-	var user userJson.UserJson
+	var user models.UserJson
 	if err := context.ShouldBindJSON(&user); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	value := tokenMap[user]
-	fmt.Println(user.UserName, user.Password)
-	fmt.Println(db.CheckCredentials(user.UserName, user.Password))
+	userInTokenMap := tokenMap[user]
 
-	if len(value) == 0 {
+	if len(userInTokenMap) == 0 {
 
 		if db.CheckCredentials(user.UserName, user.Password) {
 
@@ -46,9 +37,6 @@ func LoginHandler(context *gin.Context) {
 			tokenMap[user] = HeaderToken
 			context.JSON(http.StatusOK, gin.H{"Token": HeaderToken, "role": user.Role, "username": user.UserName})
 
-			fmt.Println(user.UserName)
-			fmt.Println(tokenMap)
-
 		} else {
 			context.JSON(http.StatusUnauthorized, gin.H{"error": "bad credentials"})
 		}
@@ -56,6 +44,19 @@ func LoginHandler(context *gin.Context) {
 
 		context.JSON(http.StatusUnauthorized, 401)
 	}
+	logger, err := zap.NewProduction()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		return
+	}
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+
+		}
+	}(logger)
+	zapLogger := logger.Sugar()
+	zapLogger.Infow("Login request", "method", context.Request.Method, "path", context.Request.URL.Path, "status", context.Writer.Status(), "username", user.UserName)
 
 }
 
@@ -71,15 +72,11 @@ func LogoutHandler(context *gin.Context) {
 	} else {
 		context.JSON(http.StatusUnauthorized, 401)
 	}
-	fmt.Println(tokenMap)
 
 }
 func RegistrationHandler(context *gin.Context) {
 
-	var body = context.Request.Body
-
-	fmt.Println(body)
-	var teamJson TeamJson
+	var teamJson models.TeamJson
 
 	if err := context.ShouldBindJSON(&teamJson); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -88,8 +85,8 @@ func RegistrationHandler(context *gin.Context) {
 	if strings.TrimSpace(teamJson.TeamName) == "" || len(teamJson.Emails) == 0 || (teamJson.LanguageID < 1 || teamJson.LanguageID > 4) {
 		return
 	} else {
-		db.WriteUsersInDB(db.TeamJson(teamJson))
-		db.WriteTeamInDB(db.TeamJson(teamJson))
+		db.WriteUsersInDB(teamJson)
+		db.WriteTeamInDB(teamJson)
 		context.JSON(http.StatusCreated, gin.H{})
 	}
 
@@ -107,7 +104,7 @@ func RegistrationHandler(context *gin.Context) {
 
 func SubmitTaskHandler(context *gin.Context) {
 	var body = context.Request.Body
-	var code services.Task
+	var code models.Task
 
 	var team = context.GetHeader("teamname")
 	fmt.Println(team)
@@ -144,8 +141,7 @@ func SubmitNewTaskHandler(context *gin.Context) {
 		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
-	var task services.Task
-	fmt.Println(task)
+	var task models.TaskToSubmit
 
 	if err := context.ShouldBindJSON(&task); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -184,18 +180,13 @@ func EditTaskHandler(context *gin.Context) {
 		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
-
-	// Get the task ID from the URL path
 	taskID := context.Param("id")
-
-	// Parse the updated task information from the request body
-	var updatedTask db.UpdatedTask
+	var updatedTask models.UpdatedTask
 	if err := context.ShouldBindJSON(&updatedTask); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 
-	// Call the function to update the task in Firestore
 	err := db.UpdateTaskInFirestore(taskID, updatedTask)
 	if err != nil {
 		log.Printf("Failed to update task: %v", err)
@@ -211,7 +202,7 @@ func AddTaskHandler(context *gin.Context) {
 		return
 	}
 
-	var task db.Task
+	var task models.Task
 	if err := context.ShouldBindJSON(&task); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
@@ -244,7 +235,7 @@ func RemoveTaskByIDHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Task removed successfully"})
 }
 func AddCompetitionHandler(context *gin.Context) {
-	var competitionData helpers.Competition
+	var competitionData models.Competition
 	if err := context.ShouldBindJSON(&competitionData); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON format"})
 		return
@@ -255,7 +246,7 @@ func AddCompetitionHandler(context *gin.Context) {
 		return
 	}
 
-	newCompetition := helpers.Competition{
+	newCompetition := models.Competition{
 		Description: competitionData.Description,
 		EName:       competitionData.EName,
 	}

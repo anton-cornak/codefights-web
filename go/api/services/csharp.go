@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Visma/models"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -13,13 +14,7 @@ var (
 	csharpURL = "http://10.11.65.65:8080/receive_json"
 )
 
-type Task struct {
-	Language string `json:"language"`
-
-	Code string `json:"code"`
-}
-
-func SendCodeToCSharp(code Task, context *gin.Context) {
+func SendCodeToCSharp(code models.Task, context *gin.Context) {
 
 	jsonBytes, err := json.Marshal(code)
 	if err != nil {

@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"Visma/models"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -10,26 +11,6 @@ import (
 	"net/smtp"
 	"reflect"
 )
-
-type TeamJson struct {
-	TeamName   string   `json:"teamname"`
-	Members    []string `json:"members"`
-	Emails     []string `json:"emails"`
-	LanguageID int      `json:"languageID"`
-	Ai         bool     `json:"ai"`
-}
-
-type UserJson struct {
-	UserName string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-}
-
-type Competition struct {
-	Description string `firestore:"description"`
-	EName       string `firestore:"ename"`
-}
 
 func GenerateToken() string {
 	//Random (10-1 +1) is 0-9 9-0
@@ -68,7 +49,7 @@ func GeneratePassword() string {
 	}
 	return password
 }
-func ParseRegisterDataForEmail(data TeamJson) []string {
+func ParseRegisterDataForEmail(data models.TeamJson) []string {
 
 	var email []string
 	email = data.Emails
@@ -143,7 +124,7 @@ func SendEmail(email string, password string, name string) {
 //		}
 //		return false
 //	}
-func ContainsValue(m map[UserJson]string, value string) bool {
+func ContainsValue(m map[models.UserJson]string, value string) bool {
 	for _, v := range m {
 		if v == value {
 			return true
@@ -152,13 +133,13 @@ func ContainsValue(m map[UserJson]string, value string) bool {
 	return false
 }
 
-func GetKeyByValue(m map[UserJson]string, value string) UserJson {
+func GetKeyByValue(m map[models.UserJson]string, value string) models.UserJson {
 	for key, val := range m {
 		if val == value {
 			return key
 		}
 	}
-	return UserJson{}
+	return models.UserJson{}
 }
 
 //	func FindKeyByValue(m map[UserJson]string, value string) string {
@@ -169,13 +150,13 @@ func GetKeyByValue(m map[UserJson]string, value string) UserJson {
 //		}
 //		return ""
 //	}
-func FindKeyByValue(m map[UserJson]string, value string) UserJson {
+func FindKeyByValue(m map[models.UserJson]string, value string) models.UserJson {
 	for k, v := range m {
 		if v == value {
 			return k
 		}
 	}
-	return UserJson{}
+	return models.UserJson{}
 }
 
 func ContainsKey(m interface{}, key string) bool {
@@ -193,15 +174,15 @@ func ContainsKey(m interface{}, key string) bool {
 
 	return false
 }
-func GetUserByToken(tokenMap map[UserJson]string, token string) (UserJson, bool) {
+func GetUserByToken(tokenMap map[models.UserJson]string, token string) (models.UserJson, bool) {
 	for user, t := range tokenMap {
 		if t == token {
 			return user, true
 		}
 	}
-	return UserJson{}, false
+	return models.UserJson{}, false
 }
-func ValidateAndAuthorizeAdmin(context *gin.Context, tokenMap map[UserJson]string) error {
+func ValidateAndAuthorizeAdmin(context *gin.Context, tokenMap map[models.UserJson]string) error {
 	token := context.GetHeader("token")
 
 	user, isInMap := GetUserByToken(tokenMap, token)

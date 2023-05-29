@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Visma/models"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -13,7 +14,7 @@ var (
 	javaURL = "http://10.11.65.65:8080/receive_json"
 )
 
-func SendCodeToJava(code Task, context *gin.Context) {
+func SendCodeToJava(code models.Task, context *gin.Context) {
 	jsonBytes, err := json.Marshal(code)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "bad code"})

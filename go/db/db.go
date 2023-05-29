@@ -2,6 +2,7 @@ package db
 
 import (
 	"Visma/helpers"
+	"Visma/models"
 	"cloud.google.com/go/firestore"
 	"context"
 	"errors"
@@ -20,23 +21,6 @@ var (
 	projectID = "codefights-5b44a"
 	keyPath   = "db/authentification.json"
 )
-
-type TeamJson struct {
-	TeamName   string   `json:"teamname"`
-	Members    []string `json:"members"`
-	Emails     []string `json:"emails"`
-	LanguageID int      `json:"languageID"`
-	Ai         bool     `json:"ai"`
-}
-type UpdatedTask struct {
-	Language string `json:"language"`
-	Task     string `json:"task"`
-}
-type Task struct {
-	Language string `json:"language"`
-	Task     string `json:"task"`
-	Id       int    `json:"id"`
-}
 
 func AddUser(name string, email string, role string) {
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
@@ -64,7 +48,7 @@ func AddUser(name string, email string, role string) {
 		return
 	}
 }
-func AddTeam(teamJson TeamJson) {
+func AddTeam(teamJson models.TeamJson) {
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	//pridame usera s ID ktorym  chceme my
 	_, err = client.Collection("teams").Doc(GetIdInDB("teams")).Set(ctx, map[string]interface{}{
@@ -123,11 +107,11 @@ func CheckCredentials(username string, password string) bool {
 
 }
 func GetIdInDB(path string) string {
-	var id = 0
+	var highestID int
 
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	if err != nil {
-		// Handle error
+		return ""
 	}
 	defer func(client *firestore.Client) {
 		err := client.Close()
@@ -135,33 +119,44 @@ func GetIdInDB(path string) string {
 
 		}
 	}(client)
+
 	query := client.Collection(path)
 	iter := query.Documents(ctx)
 
 	for {
-		_, err := iter.Next()
+		doc, err := iter.Next()
 		if err == iterator.Done {
 			break
 		}
 		if err != nil {
-			// Handle error.
+			return ""
 		}
-		id++
+
+		// Parse the document ID as an integer
+		id, err := strconv.Atoi(doc.Ref.ID)
+		if err != nil {
+			return ""
+		}
+
+		if id > highestID {
+			highestID = id
+		}
 	}
-	str := strconv.Itoa(id + 1)
 
+	highestID++ // Increment the highest ID by one
+	str := strconv.Itoa(highestID)
 	return str
-
 }
-func WriteTeamInDB(teamJson TeamJson) {
+
+func WriteTeamInDB(teamJson models.TeamJson) {
 	AddTeam(teamJson)
 }
-func WriteUsersInDB(teamJson TeamJson) {
+func WriteUsersInDB(teamJson models.TeamJson) {
 
 	var username string
 	var emails []string
 	var email string
-	emails = helpers.ParseRegisterDataForEmail(helpers.TeamJson(teamJson))
+	emails = helpers.ParseRegisterDataForEmail(teamJson)
 	for i := 0; i < len(emails); i++ {
 		email = emails[i]
 
@@ -245,7 +240,7 @@ func GetUserRoleByUsername(username string, password string) string {
 
 	return roleStr
 }
-func GetTasksFromFirestore() ([]Task, error) {
+func GetTasksFromFirestore() ([]models.Task, error) {
 	// Initialize the Firestore client
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	if err != nil {
@@ -266,10 +261,10 @@ func GetTasksFromFirestore() ([]Task, error) {
 		return nil, err
 	}
 
-	var tasks []Task
+	var tasks []models.Task
 
 	for _, doc := range docs {
-		var task Task
+		var task models.Task
 		if err := doc.DataTo(&task); err != nil {
 			log.Printf("Failed to parse task document: %v", err)
 			continue
@@ -279,7 +274,7 @@ func GetTasksFromFirestore() ([]Task, error) {
 
 	return tasks, nil
 }
-func GetTasksFromFirestoreInLanguageThatIsChosen(language string) ([]Task, error) {
+func GetTasksFromFirestoreInLanguageThatIsChosen(language string) ([]models.Task, error) {
 	// Initialize the Firestore client
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	if err != nil {
@@ -300,10 +295,10 @@ func GetTasksFromFirestoreInLanguageThatIsChosen(language string) ([]Task, error
 		return nil, err
 	}
 
-	var tasks []Task
+	var tasks []models.Task
 
 	for _, doc := range docs {
-		var task Task
+		var task models.Task
 		if err := doc.DataTo(&task); err != nil {
 			log.Printf("Failed to parse task document: %v", err)
 			continue
@@ -313,7 +308,7 @@ func GetTasksFromFirestoreInLanguageThatIsChosen(language string) ([]Task, error
 
 	return tasks, nil
 }
-func UpdateTaskInFirestore(taskID string, updatedTask UpdatedTask) error {
+func UpdateTaskInFirestore(taskID string, updatedTask models.UpdatedTask) error {
 
 	// Initialize the Firestore client
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
@@ -346,7 +341,7 @@ func UpdateTaskInFirestore(taskID string, updatedTask UpdatedTask) error {
 
 	return nil
 }
-func AddTaskToFirestore(task Task) error {
+func AddTaskToFirestore(task models.Task) error {
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	if err != nil {
 		log.Fatalf("Failed to create Firestore client: %v", err)
@@ -417,7 +412,7 @@ func DocumentWithIdExists(ctx context.Context, client *firestore.Client, collect
 	return false, nil
 }
 
-func AddCompetition(competition helpers.Competition) error {
+func AddCompetition(competition models.Competition) error {
 
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
 	_, err = client.Collection("competition").Doc(GetIdInDB("competition")).Set(ctx, map[string]interface{}{
