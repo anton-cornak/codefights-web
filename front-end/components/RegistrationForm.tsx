@@ -96,9 +96,10 @@ const handleEmailChange = (
     <div>
       <div className="md:flex">
         <div className="p-8">
-          <div className="uppercase tracking-wide text-2xl text-grey-700 font-semibold">
+          {/* <div className="uppercase tracking-wide text-2xl text-grey-700 font-semibold"> */}
+        <h1 className="text-5xl text-black dark:text-white">
             registration
-          </div>
+          </h1>
           <Formik
             initialValues={{
               teamName: '',
@@ -110,9 +111,9 @@ const handleEmailChange = (
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form className="block mt-1 text-lg leading-tight font-medium text-black hover:text-grey-700">
+            <Form className="block mt-1 text-lg leading-tight font-medium text-black dark:text-white">
               <div className="mb-4">
-                <label htmlFor="teamname" className="block font-medium text-gray-700 mt-6">
+                <label htmlFor="teamname" className="block font-medium text-black dark:text-white mt-6">
                   Team Name
                 </label>
                 <Field
@@ -124,7 +125,7 @@ const handleEmailChange = (
                 <ErrorMessage name="teamName" component="div" className="text-red-500" />
               </div>
               <div className="mb-4">
-                <label htmlFor="members" className="block font-medium text-gray-700">
+                <label htmlFor="members" className="block font-medium text-black dark:text-white">
                   Members
                 </label>
                 {members.map((member, index) => (
@@ -145,7 +146,7 @@ const handleEmailChange = (
                 ))}
                 <button
                   type="button"
-                  className="px-4 py-2 text-sm font-medium text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
+                  className="px-4 py-2 text-sm font-medium text-black dark:text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
                   onClick={handleAddMember}
                 >
                   Add Member
@@ -154,7 +155,7 @@ const handleEmailChange = (
                 <ErrorMessage name="emails" component="div" className="text-red-500" />
               </div>
               <div className="mb-4">
-                <label htmlFor="language" className="block font-medium text-gray-700">
+                <label htmlFor="language" className="block font-medium text-black dark:text-white">
                   Language
                 </label>
                 <Field
@@ -179,7 +180,7 @@ const handleEmailChange = (
                     name="ai"
                     className="mr-2 text-custom_green focus:ring-custom_green"
                   />
-                  <label htmlFor="ai" className="font-medium text-gray-700">
+                  <label htmlFor="ai" className="font-medium text-black dark:text-white">
                     AI
                   </label>
                 </div>
@@ -192,8 +193,8 @@ const handleEmailChange = (
                   Register
                 </button>
                 <Link
-                  href="/"
-                  className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 text-sm font-medium text-black hover:text-custom_green"
+                  href="/signin"
+                  className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 text-sm font-medium text-black dark:text-white hover:text-custom_green"
                 >
                   Already registered? Log in.
                 </Link>
@@ -201,11 +202,11 @@ const handleEmailChange = (
             </Form>
           </Formik>
         </div>
-        <div className="md:shrink-0 mr-16 mt-10 ml-16">
+        <div className="md:shrink-0 mr-16 mt-0 ml-16">
           <BoxShadowImage
             alt="Example Image"
             src="registrationImage.jpg"
-            width={350}
+            width={450}
             height={350}
           />
         </div>

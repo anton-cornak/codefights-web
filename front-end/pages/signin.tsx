@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { buttonVariants } from "@/components/Button";
+import Link from "next/link";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -37,18 +38,20 @@ const SignInPage = () => {
   <div>
     <div className="md:flex">
       <div className="p-8">
-        <div className="mt-4 mb-0 uppercase tracking-wide text-3xl text-grey-700 font-semibold text-center">
-          login
-        </div>
+          {/* <div className="mt-4 mb-0 uppercase tracking-wide text-3xl text-grey-700 font-semibold text-center"> */}
+            <h1 className="text-5xl text-black dark:text-white text-center">
+            login
+          </h1>
+        {/* </div> */}
         <form
-          className="block mt-20 text-lg leading-tight font-medium text-black hover:text-grey-700"
+          className="block mt-10 text-lg leading-tight font-medium text-black hover:text-grey-700"
           onSubmit={handleSubmit}
         >
           {!!error && <p className="text-error">ERROR: {error}</p>}
           <div className="relative">
             <input
               type="text"
-              className="ml-16 mt-0 px-3 py-2 border rounded-lg w-3/4 focus:outline-none focus:ring-2 focus:ring-gray-600"
+              className="ml-16 px-3 py-2 border rounded-lg w-3/4 focus:outline-none focus:ring-2 focus:ring-gray-600"
               placeholder="email"
               value={email}
               onChange={(e) => {
@@ -94,18 +97,24 @@ const SignInPage = () => {
           </div>
 
             <br />
-            <div className="ml-48">
+            <div className="ml-56">
           <button type="submit" className={buttonVariants({ variant: 'default' })}>
             Login
               </button>
+              <Link
+                  href="/registration"
+                  className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 text-sm font-medium text-black dark:text-white hover:text-custom_green"
+                ><br/>
+                  Not registered yet?
+                </Link>
               </div>
         </form>
       </div>
-      <div className="md:shrink-0 mr-16 mt-10 ml-16">
+      <div className="md:shrink-0 mr-16 ml-16">
         <BoxShadowImage
           alt="Example Image"
           src="loginImage.jpg"
-          width={350}
+          width={450}
           height={350}
         />
       </div>
