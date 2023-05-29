@@ -1,68 +1,83 @@
-import Link from 'next/link'
-import { buttonVariants } from './Button'
+import React, { useState } from "react";
+
+import Link from "next/link";
+import { buttonVariants } from "./Button";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
 
-const Navbar = () => {
-  const { data: session } = useSession();
+const Navbar = (): JSX.Element => {
+	const { data: session } = useSession();
 
-  const user = session?.user;
+	const user = session?.user;
 
-  const [active, setActive] = useState(false);
+	const [active, setActive] = useState(false);
 
-  const handleClick = () => {
-    setActive(!active);
-  };
-  
+	return (
+		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black ">
+			<div className="container flex items-center justify-center gap-1">
+				<Link href="/" className={buttonVariants({ variant: "link" })}>
+					HOME
+				</Link>
 
+				<Link
+					href="/events"
+					className={buttonVariants({ variant: "link" })}
+				>
+					EVENTS
+				</Link>
 
-    return (
-        <div className='sticky w-full backdrop-blur-sm bg-white/75 dark:bg-black z-50 top-0 left-0 right-0 h-20 border-b border-slate-300 dark:border-slate-600 shadow-sm flex '>
-            
-            <div className='container flex gap-1 justify-center items-center'>
-                <Link href='/' className={buttonVariants({ variant: 'link' })}>
-                    HOME
-                </Link>
+				<Link
+					href="/upcomingevents"
+					className={buttonVariants({ variant: "link" })}
+				>
+					UPCOMING_EVENTS
+				</Link>
 
-                <Link href='/events' className={buttonVariants({ variant: 'link' })}>
-                    EVENTS
-                </Link>
+				<Link
+					href="/latestevents"
+					className={buttonVariants({ variant: "link" })}
+				>
+					LATEST_EVENTS
+				</Link>
 
-                <Link href='/upcomingevents' className={buttonVariants({ variant: 'link' })}>
-                    UPCOMING_EVENTS
-                </Link>
+				<Link
+					href="/leaderboard"
+					className={buttonVariants({ variant: "link" })}
+				>
+					LEADERBOARD
+				</Link>
+			</div>
 
-                <Link href='/latestevents' className={buttonVariants({ variant: 'link' })}>
-                    LATEST_EVENTS
-                </Link>
-
-                <Link href='/leaderboard' className={buttonVariants({ variant: 'link' })}>
-                    LEADERBOARD
-                </Link>
-            </div>
-
-            <div className='container w-64 flex justify-center items-center'>
-                <div className='hidden md:flex  gap-4 uppercase'>
-                    <Link className={buttonVariants({ variant: 'default' })}
-                                href='/registration'>
-                                register
-                    </Link>
-                    {user ? (
-                        <>
-                            <button className={buttonVariants({ variant: 'default' })} onClick={() => signOut()}>
-                                Sign Out
-                            </button>
-                        </>
-                    ) : (
-                        <Link className={buttonVariants({ variant: 'default' })}
-                            href='/signin'>
-                            login
-                        </Link>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
-}
+			<div className="container flex w-64 items-center justify-center">
+				<div className="hidden gap-4  uppercase md:flex">
+					<Link
+						className={buttonVariants({ variant: "default" })}
+						href="/registration"
+					>
+						register
+					</Link>
+					{user ? (
+						<>
+							<button
+								className={buttonVariants({
+									variant: "default",
+								})}
+								onClick={() => signOut()}
+							>
+								Sign Out
+							</button>
+						</>
+					) : (
+						<Link
+							className={buttonVariants({ variant: "default" })}
+							href="/signin"
+						>
+							login
+						</Link>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default Navbar;

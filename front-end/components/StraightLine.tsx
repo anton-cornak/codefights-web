@@ -1,9 +1,11 @@
-const StraightLine = () => {
-    return (
-        <div className="inline-flex items-center justify-center w-full">
-            <hr className="h-px w-[85rem] bg-color1 border-0 dark:bg-color1 "></hr>
-        </div>
-    );
-}
+import React from "react";
+
+const StraightLine = (): JSX.Element => {
+	return (
+		<div className="inline-flex w-full items-center justify-center">
+			<hr className="bg-color1 dark:bg-color1 h-px w-[85rem] border-0 "></hr>
+		</div>
+	);
+};
 
 export default StraightLine;
