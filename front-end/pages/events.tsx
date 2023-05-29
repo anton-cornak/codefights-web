@@ -1,9 +1,10 @@
+import React, { useState } from "react";
+
 import Button, { buttonVariants } from "@/components/ui/Button";
 import LargeHeading from "@/components/ui/LargeHeading";
 import TextAnimation from "@/components/ui/TextAnimation";
 import axios from "axios";
 import type { Metadata } from "next";
-import { useState } from "react";
 
 export const metadata: Metadata = {
 	title: "VISMA WARS",
@@ -57,47 +58,53 @@ export default function Events() {
 						<TextAnimation />
 					</div>
 
-					<div className="w-full flex flex-col gap-4 items-end h-[40rem]">
-						<div className="w-full grid grid-cols-2 gap-4 flex-1">
-							<div
-								className="grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
-							>
-								<h1 className="text-2xl font-bold">Challenge 1:</h1>
+					<div className="flex h-[40rem] w-full flex-col items-end gap-4">
+						<div className="grid w-full flex-1 grid-cols-2 gap-4">
+							<div className="grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner">
+								<h1 className="text-2xl font-bold">
+									Challenge 1:
+								</h1>
 								<p className="">Convert abdc to 1234</p>
 							</div>
-							<div className="flex w-full flex-col gap-4 flex-1">
+							<div className="flex w-full flex-1 flex-col gap-4">
 								<textarea
 									placeholder="// input your solution"
-									className="h-full grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
+									className="grid-span-2 mx-right focus:ring-green focus:border-green h-full resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
 									value={inputValue}
 									onChange={handleChange}
 								/>
-								<textarea placeholder="tests"
-									className="h-full w-full mx-left focus:ring-green focus:border-green w-1/2 resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
-								 />
+								<textarea
+									placeholder="tests"
+									className="mx-left focus:ring-green focus:border-green h-full w-1/2 w-full resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
+								/>
 							</div>
 						</div>
 						<div className="flex gap-2">
-						<Button className={"w-fit" + buttonVariants({ variant: "outline" })}
+							<Button
+								className={
+									"w-fit" +
+									buttonVariants({ variant: "outline" })
+								}
 								onClick={() => {
 									HandleSubmitTask(inputValue);
-								}}>
+								}}
+							>
 								RUN
 							</Button>
 							<Button
-								className={"w-fit " + buttonVariants({ variant: "default" })}
+								className={
+									"w-fit " +
+									buttonVariants({ variant: "default" })
+								}
 								onClick={() => {
 									HandleSubmitTask(inputValue);
-								}}>
+								}}
+							>
 								SEND
 							</Button>
 						</div>
 					</div>
 				</div>
-
-
-
-
 			</div>
 		</>
 	);
