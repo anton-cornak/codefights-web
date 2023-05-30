@@ -29,7 +29,7 @@ const HandleSubmitTask = async (codeSnippet: string) => {
 	console.log(encodedAsciiString);
 
 	try {
-		const url = "http://10.2.130.98:9090/submit-task";
+		const url = process.env.NEXT_PUBLIC_API_URL2 ?? "";
 		const data = {
 			language: "csharp",
 			method: "challenge1",
@@ -39,7 +39,6 @@ const HandleSubmitTask = async (codeSnippet: string) => {
 		const headers = {
 			"Content-Type": "application/json",
 			teamname: "marek",
-			mode: "no-cors",
 		};
 		const response = await axios.post(url, data, { headers });
 	} catch (error) {
