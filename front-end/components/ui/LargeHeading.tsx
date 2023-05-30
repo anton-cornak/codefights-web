@@ -8,9 +8,9 @@ const headingVariants = cva(
 {
   variants: {
     size: {
-      default: 'text-4xl md:text-5xl lg:text-6xl',
-      lg: 'text-5xl md:text-6xl lg:text-7xl', 
-      sm: 'text-2xl md:text-3xl lg:text-4xl'
+      default: 'text-4xl md:text-5xl lg:text-3xl',
+      lg: 'text-5xl md:text-6xl lg:text-5xl' , 
+      sm: 'text-2xl md:text-3xl lg:text-1xl'
     },
   },
   defaultVariants: {
@@ -21,7 +21,7 @@ const headingVariants = cva(
 
 interface LargeHeadingProps extends HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof headingVariants > {}
 
-const Paragraph = forwardRef<HTMLHeadingElement, LargeHeadingProps>(({
+const LargeHeading = forwardRef<HTMLHeadingElement, LargeHeadingProps>(({
   className, size, children, ...props
 }, ref) => {
   return <h1 ref={ref} {...props} className={cn(
@@ -31,6 +31,6 @@ const Paragraph = forwardRef<HTMLHeadingElement, LargeHeadingProps>(({
   </h1>
 })
 
-Paragraph.displayName = 'Paragraph'
+LargeHeading.displayName = 'LargeHeading'
 
-export default Paragraph
+export default LargeHeading

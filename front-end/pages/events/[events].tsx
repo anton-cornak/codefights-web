@@ -6,14 +6,10 @@ import type { Metadata } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export const metadata: Metadata = {
-	title: "VISMA WARS",
-	description: "KASV project for Vsima employees",
-};
 
 interface challengeData{
 	title: string,
-	description: string
+	description: string,
 }
 
 const HandleGetTask = async (router: any) => {
@@ -31,7 +27,9 @@ const HandleGetTask = async (router: any) => {
 		console.error(error);
 	}
 
-	const data: challengeData = {title: "Title1", description: "Desc1"}
+	const data: challengeData = {
+		title: "Title1", description: "const greeting: string = 'Hello, World!",
+	}
 	return data;
 }
 
@@ -95,7 +93,7 @@ export default function Events() {
 							<div 
 								className="grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
 							>
-
+								
 								{data.description}
 							</div>
 							<div className="flex w-full flex-col gap-4 flex-1">

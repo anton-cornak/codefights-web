@@ -42,7 +42,7 @@ function TextAnimation() {
 
   return (
     <div>
-        <Paragraph className="font-bruno text-animation">TEAMWORK IS ESSENTIAL</Paragraph>
+        <Paragraph size={'lg'} className="font-bruno text-animation">TEAMWORK IS ESSENTIAL</Paragraph>
     </div>
   );
 }
