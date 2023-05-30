@@ -2,35 +2,25 @@ import Button, { buttonVariants } from "@/components/ui/Button";
 import LargeHeading from "@/components/ui/LargeHeading";
 import TextAnimation from "@/components/ui/TextAnimation";
 import axios from "axios";
-import type { Metadata } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-
-interface challengeData{
-	title: string,
-	description: string,
-}
+import { ClipLoader } from "react-spinners";
 
 const HandleGetTask = async (router: any) => {
 
-	try{
-		const url = "http://10.2.130.98:9090/get-language-tasks";
+	try {
+		const url = process.env.NEXT_PUBLIC_API_URL1 ?? "";
 		const headers = {
-			
-			language: router.query.events
+			language: router.query.events,
 		};
 
 		const response = await axios.get(url, { headers });
-		console.log(response);
-	}catch (error) {
+		return response.data.task;
+	} catch (error) {
 		console.error(error);
 	}
 
-	const data: challengeData = {
-		title: "Title1", description: "const greeting: string = 'Hello, World!",
-	}
-	return data;
+	return "null";
 }
 
 const HandleSubmitTask = async (codeSnippet: string) => {
@@ -49,16 +39,18 @@ const HandleSubmitTask = async (codeSnippet: string) => {
 		const headers = {
 			"Content-Type": "application/json",
 			teamname: "marek",
+			mode: "no-cors",
 		};
 		const response = await axios.post(url, data, { headers });
 	} catch (error) {
 		console.error(error);
 	}
+	
 };
 
 export default function Events() {
 	const [inputValue, setInputValue] = useState("");
-	const [data, setChallengeData] = useState({title: "", description: ""});
+	const [data, setChallengeData] = useState("null");
 	const router = useRouter();
 
 	const handleChange = (event: any) => {
@@ -70,8 +62,7 @@ export default function Events() {
 		HandleGetTask(router).then(
 			data => setChallengeData(data)
 		)
-		
-	}, [])
+	}, [router])
 	return (
 		<>
 			<div className=" relative h-screen overflow-x-hidden bg-black">
@@ -90,11 +81,20 @@ export default function Events() {
 
 					<div className="w-full flex flex-col gap-4 items-end h-[40rem]">
 						<div className="w-full grid grid-cols-2 gap-4 flex-1">
-							<div 
+							<div
 								className="grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
 							>
-								
-								{data.description}
+
+								{
+									data === "null" ? 
+									<ClipLoader className=""
+										color={"#ffffff"}
+										loading={true}
+										size={60}
+										aria-label="Loading Spinner"
+										data-testid="loader"
+									/> : data
+								}
 							</div>
 							<div className="flex w-full flex-col gap-4 flex-1">
 								<textarea
@@ -105,11 +105,11 @@ export default function Events() {
 								/>
 								<textarea placeholder="tests"
 									className="h-full w-full mx-left focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
-								 />
+								/>
 							</div>
 						</div>
 						<div className="flex gap-2">
-						<Button className={"w-fit" + buttonVariants({ variant: "outline" })}
+							<Button className={"w-fit" + buttonVariants({ variant: "outline" })}
 								onClick={() => {
 									HandleSubmitTask(inputValue);
 								}}>

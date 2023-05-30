@@ -21,9 +21,9 @@ function addAnimation(): void {
 					span.style.animationDelay = `${index * 0.04}s`;
 					textElement.appendChild(span);
 				});
-				console.log("Counter: " + counter + " arr: " + arr.length);
+				
 				if (counter != arr.length) {
-					console.log("true");
+					
 					textElement.innerHTML =
 						textElement.innerHTML + "&nbsp;&nbsp;";
 				}
