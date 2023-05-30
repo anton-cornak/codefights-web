@@ -1,36 +1,35 @@
-const Description = () => {
-    return (
-        <div className='flex justify-center text-2xl my-10 text-color1 xl:w-auto md:w-auto '>
+import React from "react";
 
-            <div className='flex justify-center gap-36'>
-                <div>
-                    <p>TOP 1-10</p>
-                </div>
+const Description = (): JSX.Element => {
+	return (
+		<div className="text-color1 my-10 flex justify-center text-2xl md:w-auto xl:w-auto ">
+			<div className="flex justify-center gap-36">
+				<div>
+					<p>TOP 1-10</p>
+				</div>
 
-                <div>
-                    <p>TEAM NAME</p>
-                </div>
+				<div>
+					<p>TEAM NAME</p>
+				</div>
 
-                <div>
-                    <p>SCORE</p>
-                </div>
+				<div>
+					<p>SCORE</p>
+				</div>
 
-                <div>
-                    <p>TOP 11-20</p>
-                </div>
+				<div>
+					<p>TOP 11-20</p>
+				</div>
 
-                <div>
-                    <p>TEAM NAME</p>
-                </div>
+				<div>
+					<p>TEAM NAME</p>
+				</div>
 
-                <div>
-                    <p>SCORE</p>
-                </div>
-
-            </div>
-
-        </div>
-    );
-}
+				<div>
+					<p>SCORE</p>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default Description;

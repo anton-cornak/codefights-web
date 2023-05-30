@@ -1,9 +1,11 @@
-const MiddleLine = () => {
-    return (
-        <div className="inline-flex items-center justify-center w-full absolute top-60">
-            <hr className="w-px h-[41rem] bg-color1 border-0 dark:bg-color1 "></hr>
-        </div>
-    );
-}
+import React from "react";
+
+const MiddleLine = (): JSX.Element => {
+	return (
+		<div className="absolute top-32 inline-flex w-full items-center justify-center">
+			<hr className="bg-color1 dark:bg-color1 h-[41rem] w-px border-0 "></hr>
+		</div>
+	);
+};
 
 export default MiddleLine;
