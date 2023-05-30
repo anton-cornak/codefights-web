@@ -1,14 +1,15 @@
-import Link from 'next/link'
-import { buttonVariants } from './Button'
+import React, { useState } from "react";
+
+import Link from "next/link";
+import { buttonVariants } from "./Button";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
 
-const Navbar = () => {
-    const { data: session } = useSession();
+const Navbar = (): JSX.Element => {
+	const { data: session } = useSession();
 
-    const user = session?.user;
+	const user = session?.user;
 
-    const [active, setActive] = useState(false);
+	const [active, setActive] = useState(false);
 
     const handleClick = () => {
         setActive(!active);
@@ -24,22 +25,31 @@ const Navbar = () => {
                     <img className=' left-0 w-[2.5rem] h-[2.5remw]' src="/gulicka.png" alt="Logo" />
                 </a>
 
-                <Link href='/events' className={buttonVariants({ variant: 'link' })}>
-                    EVENTS
-                </Link>
+				<Link
+					href="/events"
+					className={buttonVariants({ variant: "link" })}
+				>
+					EVENTS
+				</Link>
 
                 <Link href='/upcomingEvents' className={buttonVariants({ variant: 'link' })}>
                     UPCOMING_EVENTS
                 </Link>
 
-                <Link href='/latestevents' className={buttonVariants({ variant: 'link' })}>
-                    LATEST_EVENTS
-                </Link>
+				<Link
+					href="/latestevents"
+					className={buttonVariants({ variant: "link" })}
+				>
+					LATEST_EVENTS
+				</Link>
 
-                <Link href='/leaderboard' className={buttonVariants({ variant: 'link' })}>
-                    LEADERBOARD
-                </Link>
-            </div>
+				<Link
+					href="/leaderboard"
+					className={buttonVariants({ variant: "link" })}
+				>
+					LEADERBOARD
+				</Link>
+			</div>
 
             <div className='container w-64 flex justify-center items-center'>
                 <div className='hidden md:flex  gap-4 uppercase'>

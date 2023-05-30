@@ -1,7 +1,7 @@
-import { FC, HTMLAttributes, forwardRef } from 'react'
-import { VariantProps, cva } from "class-variance-authority"
-import { cn } from '@/lib/utils'
-
+import React from "react";
+import { HTMLAttributes, forwardRef } from "react";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
 const headingVariants = cva(
   'text-black dark:text-white text-center lg:text:left font-extrabold leading-tight tracking-tighter ',
@@ -19,7 +19,9 @@ const headingVariants = cva(
 }
 )
 
-interface LargeHeadingProps extends HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof headingVariants > {}
+interface LargeHeadingProps
+	extends HTMLAttributes<HTMLHeadingElement>,
+		VariantProps<typeof headingVariants> {}
 
 const LargeHeading = forwardRef<HTMLHeadingElement, LargeHeadingProps>(({
   className, size, children, ...props
