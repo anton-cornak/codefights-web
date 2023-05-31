@@ -1,6 +1,8 @@
+import React from "react";
 import Link from "next/link";
 import ScorePoints from "@/components/Score/ScorePoints";
 import '../pages';
+import { buttonVariants } from "@/components/Button";
 
 interface ScorePointsProps {
     score: string
@@ -10,45 +12,34 @@ interface completedTasksProps {
 }
 export default function completedTasks({ completedTasksData }: completedTasksProps): JSX.Element {
     return (
-        <div className="bg-bgBlack h-screen text-6xl">
-            <div className="flex justify-center text-color1 pt-20">
+        <div className="bg-bgBlack h-screen text-8xl font-bruno">
+            <div className="flex justify-center text-color1 pt-40">
                 <h1>EVENT COMPLETED</h1>
             </div>
 
-            <div className="flex justify-center text-color1 my-5">
+            <div className="flex justify-center text-color1 my-8">
                 <h1>YOU EARNED</h1>
             </div>
 
-
             {completedTasksData.map((rank, index) => (
-                <div key={index} className="flex justify-center my-5">
+                <div key={index} className="flex justify-center my-8">
                     <ScorePoints score={rank.score} />
+                    <h1 className="text-color1"> pts.</h1>
                 </div>
             ))}
-
-
-            <div className="flex justify-center my-5">
-                <h1>value pts.</h1>
-            </div>
-
-            <div className="flex justify-center my-5">
-                <h1>TIME - vlaue</h1>
-            </div>
-
-            <div className="flex justify-center items-center mt-20">
-                <button className="rounded-sm bg-color2 text-2xl text-center inline-flex items-center px-16">
-                    <Link href="/">RETURN HOME</Link>
-                </button>
-            </div>
-
-
+            <div className="flex items-center justify-center pt-20">
+						<Link className={buttonVariants({ variant: 'default' })}
+							href='/'>
+								<h1 className="px-auto text-center text-4xl">return home</h1> 
+						</Link>
+					</div>
         </div>
     );
 }
 completedTasks.defaultProps = {
-    leaderboardData: [
+    completedTasksData: [
         {
-            position: "1"
+            score: "value"
         },
     ],
 }

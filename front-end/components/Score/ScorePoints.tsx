@@ -3,7 +3,7 @@ interface ScorePointsProps {
 }
 const ScorePoints = ({ score }: ScorePointsProps): JSX.Element => {
     return (
-        <h1>{score}</h1>
+        <h1 className="text-color2">{score}</h1>
     );
 
 } 

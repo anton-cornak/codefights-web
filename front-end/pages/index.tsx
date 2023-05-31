@@ -2,14 +2,17 @@ import React from "react";
 import "../pages/";
 import StraightLine from "@/components/StraightLine";
 import Image from "next/image";
+import { buttonVariants } from "@/components/Button";
+import Link from "next/link";
 
 export default function Home(): JSX.Element {
 	return (
-		<div className=" relative h-screen overflow-x-hidden bg-black">
+		<div className=" font-bruno relative h-screen">
 			<div className=" bg-bgBlack text-color1">
+
 				{/* INTRO */}
 				<div>
-					<div className=" ">
+					<div>
 						<Image
 							className="mx-auto flex items-center justify-center rounded-xl opacity-60 "
 							src="/intro.jpg"
@@ -17,22 +20,22 @@ export default function Home(): JSX.Element {
 							width={750}
 							height={650}
 						/>
+					</div>
 
-						<div className=" absolute left-24 top-80 mt-12 text-9xl ">
-							<h1>VISMA</h1>
-						</div>
+					<div className=" absolute left-64 top-60 mt-12 text-8xl ">
+						<h1>VISMA</h1>
+					</div>
 
-						<div className="absolute left-40 top-96 mt-24 text-9xl">
-							<h1>WARS</h1>
-						</div>
+					<div className="absolute left-80 top-72 mt-24 text-8xl">
+						<h1>WARS</h1>
+					</div>
 
-						<div className="absolute right-0 top-48 mr-24 flex h-full w-[25rem] items-center text-right text-4xl">
-							<p>
-								TEAMWORK IS ESSENTIAL IN CODING. TOGETHER WE CAN
-								SOLVE COMPLEX PROBLEMS THAT SEEMS IMPOSSIBLE TO
-								SOLVE ALONE.
-							</p>
-						</div>
+					<div className="absolute right-64 flex top-40 w-[25rem] items-center text-right text-4xl">
+						<p>
+							TEAMWORK IS ESSENTIAL IN CODING. TOGETHER WE CAN
+							SOLVE COMPLEX PROBLEMS THAT SEEMS IMPOSSIBLE TO
+							SOLVE ALONE.
+						</p>
 					</div>
 
 					<StraightLine />
@@ -41,7 +44,7 @@ export default function Home(): JSX.Element {
 
 				{/* LANGUAGES */}
 				<div>
-					<div className=" items-center text-center text-9xl">
+					<div className=" items-center text-center text-8xl">
 						<p>LANGUAGES</p>
 					</div>
 
@@ -83,12 +86,12 @@ export default function Home(): JSX.Element {
 
 				{/* YOUR GOAL */}
 				<div>
-					<div className="text-center text-9xl">
+					<div className="text-center text-8xl">
 						<p>YOUR GOAL</p>
 					</div>
 
-					<div className="flex w-full justify-around px-24 py-5">
-						<div className="mt-28 pr-40 text-left first:text-4xl">
+					<div className="grid grid-cols-2 grid-rows-2 place-items-center text-4xl">
+						<div className="pl-60">
 							<p>
 								JOIN FORCES WITH YOUR TEAM TO SOLVE OUR
 								PROGRAMMING PROBLEMS, AND COMPETE AGAINST OTHER
@@ -97,25 +100,27 @@ export default function Home(): JSX.Element {
 							</p>
 						</div>
 
-						<Image
-							className="right-0 flex items-end justify-end rounded-xl opacity-60"
-							src="/yourGoalRight.jpg"
-							alt="dsadsa"
-							width={450}
-							height={400}
-						/>
-					</div>
+						<div>
+							<Image
+								className="rounded-xl opacity-60 "
+								src="/yourGoalRight.jpg"
+								alt="dsadsa"
+								width={450}
+								height={400}
+							/>
+						</div>
 
-					<div className="flex w-full justify-around px-24">
-						<Image
-							className="left-0 flex items-start justify-start rounded-xl opacity-60"
-							src="/yourGoalLeft.jpg"
-							alt="dsadsa"
-							width={450}
-							height={400}
-						/>
+						<div>
+							<Image
+								className=" rounded-xl opacity-60"
+								src="/yourGoalLeft.jpg"
+								alt="dsadsa"
+								width={450}
+								height={400}
+							/>
+						</div>
 
-						<div className="right-0 mt-28 flex pl-40 text-right text-4xl ">
+						<div className="pr-60">
 							<p>
 								PUT YOUR CODING SKILLS TO THE TEST WITH OUR
 								PLATFORM’S PROGRAMMING PROBLEMS AND WORK WITH
@@ -123,25 +128,27 @@ export default function Home(): JSX.Element {
 							</p>
 						</div>
 					</div>
-
-					<StraightLine />
 				</div>
-				{/* YOUR GOAL */}
 
-				{/* REGISTRATINON */}
-				<div className="">
-					<div className="my-4 text-center text-4xl ">
-						<p>ARE YOU READY?</p>
-					</div>
-
-					<div className="flex items-center justify-center pb-5">
-						<button className="bg-color2 inline-flex items-center rounded-sm px-36 text-center text-4xl">
-							<p className="text-bgBlack">REGISTER</p>
-						</button>
-					</div>
-				</div>
-				{/* REGISTRATION */}
+				<StraightLine />
 			</div>
+			{/* YOUR GOAL */}
+
+			{/* REGISTRATINON */}
+			<div className=" bg-bgBlack">
+				<div className="py-4 text-center text-4xl text-color2 ">
+					<p>ARE YOU READY?</p>
+				</div>
+
+				<div className="flex items-center justify-center pb-5">
+					<Link className={buttonVariants({ variant: 'default' })}
+						href='/registration'>
+						<h1 className="px-24 text-center text-4xl">register</h1>
+					</Link>
+				</div>
+			</div>
+			{/* REGISTRATION */}
 		</div>
+
 	);
 }
