@@ -83,6 +83,7 @@ func RegistrationHandler(context *gin.Context) {
 		return
 	}
 	if strings.TrimSpace(teamJson.TeamName) == "" || len(teamJson.Emails) == 0 || (teamJson.LanguageID < 1 || teamJson.LanguageID > 4) {
+		context.JSON(http.StatusBadRequest, gin.H{"error ": " wrong format"})
 		return
 	} else {
 		db.WriteUsersInDB(teamJson)

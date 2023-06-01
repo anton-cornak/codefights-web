@@ -6,6 +6,7 @@ import (
 )
 
 func SetupRouter(router *gin.Engine) {
+	router.Use(handlers.CorsMiddleware())
 	//USER/ADMIN
 	router.POST("/register-team", handlers.RegistrationHandler)
 
