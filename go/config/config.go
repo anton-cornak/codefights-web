@@ -35,5 +35,6 @@ func SetupRouter(router *gin.Engine) {
 	//ADMIN
 	router.POST("/end-competition/:id", handlers.EndCompetitionHandler) //ends competition
 	//this is try comment
+	router.GET("/working on .gitignore this is just handler with no function")
 	router.Use(handlers.CorsMiddleware())
 }
