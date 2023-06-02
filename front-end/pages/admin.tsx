@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import CreateEvent from "@/components/CreateEvent";
 
 const Admin = () => {
   const router = useRouter();
@@ -17,7 +18,11 @@ const Admin = () => {
     }
   }, []);
 
-  return <div>Admin Component</div>;
+  return (
+    <>
+      <CreateEvent />
+      </>
+  );
 };
 
 export default Admin;
