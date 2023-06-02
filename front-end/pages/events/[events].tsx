@@ -1,4 +1,4 @@
-import Button, { buttonVariants } from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/Button";
 import LargeHeading from "@/components/ui/LargeHeading";
 import TextAnimation from "@/components/ui/TextAnimation";
 import axios from "axios";
@@ -15,7 +15,7 @@ const HandleGetTask = async (router: any) => {
 		};
 
 		const response = await axios.get(url, { headers });
-		return response.data.task;
+		return response.data[Math.floor(Math.random() * response.data.length)].task;
 	} catch (error) {
 		console.error(error);
 	}

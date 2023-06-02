@@ -1,8 +1,24 @@
+import Popup from "@/components/Popup";
 import Paragraph from "@/components/ui/LargeHeading";
 import LargeHeading from "@/components/ui/LargeHeading";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function upcomingEvents() {
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [location, setLocation] = useState("java");
+
+    const handleButtonClick = (language: string) => {
+        setLocation(language);
+        setShowPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
+
+
     return (
         <>
             <div className=' font-bruno bg-black relative h-screen overflow-x-hidden'>
@@ -17,8 +33,8 @@ export default function upcomingEvents() {
 
 
                 <div className="grid grid-cols-2 grid-rows-2 h-50 pl-20 pr-20">
-                    <a href="events/java">
-                        <div className="grid grid-cols-2 py-5">
+                    <a onClick={() => handleButtonClick("java")} className="cursor-pointer">
+                        <div  className="grid grid-cols-2 py-5">
                             <div>
                                 <Image className="flex opacity-60  rounded-xl" src="/characters/jaro.jpg" alt="jaro" width={300} height={300} />
                             </div>
@@ -29,33 +45,34 @@ export default function upcomingEvents() {
                                     example of description
                                 </Paragraph>
                             </div>
+                            
+                            
+                        </div>
+                        </a>
+                    <a onClick={() => handleButtonClick("python")} className="cursor-pointer">
+                        <div className="grid grid-cols-2 py-5" >
+
+
+                            <div>
+                                <Image className="flex opacity-60 rounded-xl" src="/characters/zena.jpg" alt="jaro" width={300} height={300} />
+                            </div>
+
+                            <div>
+                                <LargeHeading size={"lg"} className="py-3">
+                                    Python #1
+                                </LargeHeading>
+
+                                <Paragraph size={"sm"} className="font-thin text-left">
+                                    example of description
+                                </Paragraph>
+                            </div>
 
                         </div>
-                    </a>
-                    <a href="events/python">
-                    <div className="grid grid-cols-2 py-5" >
-                        
-
-                        <div>
-                            <Image className="flex opacity-60 rounded-xl" src="/characters/zena.jpg" alt="jaro" width={300} height={300} />
-                        </div>
-
-                        <div>
-                            <LargeHeading size={"lg"} className="py-3">
-                                Python #1
-                            </LargeHeading>
-
-                            <Paragraph size={"sm"} className="font-thin text-left">
-                                example of description
-                            </Paragraph>
-                        </div>
-
-                    </div>
                     </a>
                 </div>
 
-
-
+                
+                    {showPopup && <Popup onClose={handleClosePopup} location={location} />}
             </div>
         </>)
 }

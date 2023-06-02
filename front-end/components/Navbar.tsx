@@ -20,17 +20,11 @@ const Navbar = (): JSX.Element => {
     return (
         <div className='sticky w-full backdrop-blur-sm bg-white/75 dark:bg-black z-50 top-0 left-0 right-0 h-20 border-b-[0.1rem] border-slate-300 dark:border-slate-600 shadow-sm flex '>
 
-            <div className='container flex gap-1 justify-center items-center'>
+            <div className='container flex gap-5 justify-start items-center'>
                 <a href="/">
                     <img className=' left-0 w-[2.5rem] h-[2.5remw]' src="/gulicka.png" alt="Logo" />
                 </a>
 
-				<Link
-					href="/events"
-					className={buttonVariants({ variant: "link" })}
-				>
-					EVENTS
-				</Link>
 
                 <Link href='/upcomingEvents' className={buttonVariants({ variant: 'link' })}>
                     UPCOMING_EVENTS
