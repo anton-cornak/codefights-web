@@ -40,7 +40,7 @@ const Navbar = () => {
           </button>
         </Link>
 
-        <Link href="/events" passHref>
+        <Link href="/eventsNEW" passHref>
           <button className={buttonVariants({ variant: 'link' })}>
             EVENTS
           </button>
