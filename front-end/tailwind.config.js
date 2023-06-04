@@ -34,6 +34,9 @@ module.exports = {
         color2: "#97A21E",
         bgBlack: "#000000",
       },
+      spacing: {
+        120: "30rem", // 120px
+      },
     },
   },
   plugins: [
