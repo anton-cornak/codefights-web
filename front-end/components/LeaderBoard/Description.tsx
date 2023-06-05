@@ -2,8 +2,8 @@ import React from "react";
 
 const Description = (): JSX.Element => {
 	return (
-		<div className="text-color1 my-10 flex justify-center text-2xl md:w-auto xl:w-auto  ">
-			<div className="flex justify-center gap-40">
+		<div className="text-color1 my-10 flex justify-center xl:text-2xl md:text-xl md:w-auto xl:w-auto  ">
+			<div className="flex justify-center xl:gap-40 md:gap-6 sm:gap-0">
 				<div>
 					<p>TOP 1-10</p>
 				</div>
