@@ -1,5 +1,11 @@
 package models
 
+var (
+	CsharpURL = "http://10.11.65.65:8080/receive_json"
+	JavaURL   = "http://10.11.65.65:8080/receive_json"
+	PythonURL = "http://10.2.130.190:8090/run-tests"
+)
+
 type TeamJson struct {
 	TeamName   string   `json:"teamname"`
 	Members    []string `json:"members"`
@@ -25,10 +31,17 @@ type UserJson struct {
 }
 
 type Competition struct {
-	Description string `firestore:"description"`
-	EName       string `firestore:"ename"`
+	Description string `json:"description"`
+	EName       string `json:"ename"`
+	StartDate   string `json:"start_date"`
 }
 type TaskToSubmit struct {
 	Language string `json:"language"`
 	Code     string `json:"code"`
+}
+type Result struct {
+	TName  string `json:"tname"`
+	Points int    `json:"points"`
+	Time   int    `json:"time"`
+	EName  string `json:"ename"`
 }

@@ -7,7 +7,6 @@ import (
 	"go.uber.org/zap"
 
 	"Visma/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -74,6 +73,7 @@ func LogoutHandler(context *gin.Context) {
 	}
 
 }
+
 func RegistrationHandler(context *gin.Context) {
 
 	var teamJson models.TeamJson
@@ -104,13 +104,13 @@ func RegistrationHandler(context *gin.Context) {
 //TODO pri tomto neviem ci submit task mam zobrat v headeri team name alebo cisto len token a podla toho to zapisem v db
 
 func SubmitTaskHandler(context *gin.Context) {
-	var body = context.Request.Body
-	var code models.Task
+	var code models.TaskToSubmit
 
 	var team = context.GetHeader("teamname")
-	fmt.Println(team)
-	fmt.Println(code)
-	fmt.Println(body)
+	if len(team) == 0 {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "team name is wrong"})
+	}
+
 	if err := context.ShouldBindJSON(&code); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -135,24 +135,8 @@ func SubmitTaskHandler(context *gin.Context) {
 			case "typescript":
 				sendCodeToTypescript(code, context)
 	*/
-
 }
-func SubmitNewTaskHandler(context *gin.Context) {
-	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-		return
-	}
-	var task models.TaskToSubmit
 
-	if err := context.ShouldBindJSON(&task); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	} else {
-		db.WriteProblemInDB(task.Language, task.Code)
-		context.JSON(http.StatusCreated, gin.H{"task": "created successfully"})
-
-	}
-}
 func GetTasksHandler(context *gin.Context) {
 
 	tasks, err := db.GetTasksFromFirestore()
@@ -250,8 +234,9 @@ func AddCompetitionHandler(context *gin.Context) {
 	newCompetition := models.Competition{
 		Description: competitionData.Description,
 		EName:       competitionData.EName,
+		StartDate:   competitionData.StartDate,
 	}
-	if len(newCompetition.EName) == 0 || len(newCompetition.Description) == 0 {
+	if len(newCompetition.EName) == 0 || len(newCompetition.Description) == 0 || len(newCompetition.StartDate) == 0 {
 		context.JSON(http.StatusUnauthorized, gin.H{"error": "invalid format of JSON"})
 		return
 	}
@@ -290,4 +275,36 @@ func EndCompetitionHandler(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Competition ended successfully"})
+}
+func EventResultHandler(context *gin.Context) {
+	if err := helpers.ValidateAndAuthorizeAdmin(context, tokenMap); err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	var result models.Result
+
+	if err := context.ShouldBindJSON(&result); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := db.WriteResultInDB(result); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create result in the database"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Result created successfully"})
+}
+func GetResultsHandler(context *gin.Context) {
+	results, err := db.GetAllResults()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	if len(results) != 0 {
+		context.JSON(http.StatusOK, results)
+		return
+	} else {
+		context.JSON(http.StatusNotAcceptable, gin.H{"error": "it seems no results are in here"})
+	}
 }

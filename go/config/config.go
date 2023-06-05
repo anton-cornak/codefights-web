@@ -6,35 +6,35 @@ import (
 )
 
 func SetupRouter(router *gin.Engine) {
-	router.Use(handlers.CorsMiddleware())
-	//USER/ADMIN
-	router.POST("/register-team", handlers.RegistrationHandler)
 
-	//USER/ADMIN
-	router.POST("/login", handlers.LoginHandler)
-
-	//USER/ADMIN
-	router.POST("/logout", handlers.LogoutHandler)
-	//USER neriesil som aby admin nemohol
-	router.POST("/submit-task", handlers.SubmitTaskHandler) // submits code to languages by choice
-	//ADMIN
-	router.POST("/submit-new-task", handlers.SubmitNewTaskHandler) //submits new challenges
-	//all tasks aj get language task som chapal ze z databazy co su ale tieto dve chcem preriesit
-	router.GET("/get-all-tasks", handlers.GetTasksHandler)             //it gives me all tasks that are currently in database
-	router.GET("/get-language-tasks", handlers.GetLanguageTaskHandler) //it gives me all tasks that are currently in database
-	//ADMIN
-	router.PUT("/update-task/:id", handlers.EditTaskHandler) // it updates (edits task)
-	//ADMIN
-	router.POST("/add-task", handlers.AddTaskHandler) // adds task
-	//ADMIN
-	router.DELETE("/remove-task/:id", handlers.RemoveTaskByIDHandler) //remove task
-	//ADMIN
-	router.POST("/create-event", handlers.AddCompetitionHandler) //creates competition
-	//ADMIN
-	router.POST("/start-competition/:id", handlers.StartCompetitionHandler) //start competition
-	//ADMIN
-	router.POST("/end-competition/:id", handlers.EndCompetitionHandler) //ends competition
-	//this is try comment
-	router.GET("/working on .gitignore this is just handler with no function")
 	router.Use(handlers.CorsMiddleware())
+
+	// Routes accessible to USER/ADMIN
+	userAdminGroup := router.Group("/")
+	{
+		userAdminGroup.POST("/register-team", handlers.RegistrationHandler)
+		userAdminGroup.POST("/login", handlers.LoginHandler)
+		userAdminGroup.POST("/logout", handlers.LogoutHandler)
+		userAdminGroup.POST("/submit-task", handlers.SubmitTaskHandler)
+		userAdminGroup.GET("/get-all-tasks", handlers.GetTasksHandler)
+		userAdminGroup.GET("/get-language-tasks", handlers.GetLanguageTaskHandler)
+		userAdminGroup.GET("/get-results", handlers.GetResultsHandler)
+	}
+
+	// Routes accessible to ADMIN
+	adminGroup := router.Group("/")
+	{
+		adminGroup.PUT("/update-task/:id", handlers.EditTaskHandler)
+		adminGroup.POST("/add-task", handlers.AddTaskHandler)
+		adminGroup.DELETE("/remove-task/:id", handlers.RemoveTaskByIDHandler)
+		adminGroup.POST("/create-event", handlers.AddCompetitionHandler)
+		adminGroup.POST("/start-competition/:id", handlers.StartCompetitionHandler)
+		adminGroup.POST("/end-competition/:id", handlers.EndCompetitionHandler)
+		adminGroup.PUT("/event-results", handlers.EventResultHandler)
+	}
+
+	err := router.SetTrustedProxies([]string{"127.0.0.1"})
+	if err != nil {
+		return
+	}
 }

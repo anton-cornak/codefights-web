@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.New()
 	config.SetupRouter(router)
 	err := router.Run("" + helpers.IpAddress() + ":9090")
 	if err != nil {

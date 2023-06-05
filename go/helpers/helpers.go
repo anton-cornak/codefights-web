@@ -9,7 +9,6 @@ import (
 	"math/rand"
 	"net"
 	"net/smtp"
-	"reflect"
 )
 
 func GenerateToken() string {
@@ -71,7 +70,6 @@ func DecodeFromBase64(code string) string {
 func IpAddress() string {
 	ifaces, err := net.Interfaces()
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 
@@ -80,21 +78,19 @@ func IpAddress() string {
 		if iface.Flags&net.FlagUp != 0 && iface.Flags&net.FlagLoopback == 0 {
 			addrs, err := iface.Addrs()
 			if err != nil {
-				fmt.Println(err)
+
 				continue
 			}
 
 			for _, addr := range addrs {
 
 				if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
-					fmt.Println(ipnet.IP.String())
 					return ipnet.IP.String()
 				}
 			}
 		}
 	}
 
-	fmt.Println("IPv4 address not found")
 	return "localhost"
 }
 func SendEmail(email string, password string, name string) {
@@ -132,24 +128,6 @@ func ContainsValue(m map[models.UserJson]string, value string) bool {
 	}
 	return false
 }
-
-func GetKeyByValue(m map[models.UserJson]string, value string) models.UserJson {
-	for key, val := range m {
-		if val == value {
-			return key
-		}
-	}
-	return models.UserJson{}
-}
-
-//	func FindKeyByValue(m map[UserJson]string, value string) string {
-//		for k, v := range m {
-//			if v == value {
-//				return k.UserName
-//			}
-//		}
-//		return ""
-//	}
 func FindKeyByValue(m map[models.UserJson]string, value string) models.UserJson {
 	for k, v := range m {
 		if v == value {
@@ -157,22 +135,6 @@ func FindKeyByValue(m map[models.UserJson]string, value string) models.UserJson 
 		}
 	}
 	return models.UserJson{}
-}
-
-func ContainsKey(m interface{}, key string) bool {
-	v := reflect.ValueOf(m)
-	if v.Kind() != reflect.Map {
-		return false
-	}
-
-	iter := v.MapRange()
-	for iter.Next() {
-		if reflect.DeepEqual(iter.Key().Interface(), key) {
-			return true
-		}
-	}
-
-	return false
 }
 func GetUserByToken(tokenMap map[models.UserJson]string, token string) (models.UserJson, bool) {
 	for user, t := range tokenMap {

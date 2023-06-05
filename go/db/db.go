@@ -173,23 +173,6 @@ func WriteUsersInDB(teamJson models.TeamJson) {
 	}
 
 }
-func WriteProblemInDB(language string, task string) {
-
-	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
-
-	_, err = client.Collection("tasks").Doc(GetIdInDB("tasks")).Set(ctx, map[string]interface{}{
-		"language": language,
-		"task":     task,
-	})
-	if err != nil {
-		log.Fatalf("Failed to add document: %v", err)
-	}
-	err = client.Close()
-	if err != nil {
-		return
-	}
-}
-
 func GetUserRoleByUsername(username string, password string) string {
 	// Initialize the Firestore client
 	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
@@ -418,6 +401,7 @@ func AddCompetition(competition models.Competition) error {
 	_, err = client.Collection("competition").Doc(GetIdInDB("competition")).Set(ctx, map[string]interface{}{
 		"description": competition.Description,
 		"ename":       competition.EName,
+		"start_date":  competition.StartDate,
 	})
 	if err != nil {
 		log.Fatalf("Failed to add document: %v", err)
@@ -521,4 +505,61 @@ func HasStartOrEndedDate(id string, startOrEnd string) (bool, error) {
 	}
 
 	return true, nil
+}
+func WriteResultInDB(result models.Result) error {
+
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	//pridame usera s ID ktorym  chceme my
+	_, err = client.Collection("results").Doc(GetIdInDB("results")).Set(ctx, map[string]interface{}{
+		"tname":  result.TName,
+		"points": result.Points,
+		"time":   result.Time,
+		"ename":  result.EName,
+	})
+	if err != nil {
+		log.Fatalf("Failed to add document: %v", err)
+	}
+	err = client.Close()
+	if err != nil {
+		return err
+	}
+	return err
+}
+func GetAllResults() ([]models.Result, error) {
+	// Set up Firestore client
+
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsFile(keyPath))
+	if err != nil {
+		return nil, err
+	}
+	defer func(client *firestore.Client) {
+		err := client.Close()
+		if err != nil {
+
+		}
+	}(client)
+
+	// Retrieve all documents from "results" collection
+	iter := client.Collection("results").Documents(ctx)
+	defer iter.Stop()
+
+	var results []models.Result
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		var result models.Result
+		if err := doc.DataTo(&result); err != nil {
+			return nil, err
+		}
+
+		results = append(results, result)
+	}
+
+	return results, nil
 }
