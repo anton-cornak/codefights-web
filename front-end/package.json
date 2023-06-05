@@ -39,6 +39,7 @@
     "prettier-plugin-tailwindcss": "^0.2.8",
     "react": "18.2.0",
     "react-component-tree": "^2.0.0-beta.14",
+    "react-datepicker": "^4.12.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
     "services": "^0.0.3",
@@ -54,6 +55,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
     "@types/bcrypt": "^5.0.0",
+    "@types/react-datepicker": "^4.11.2",
     "@types/styled-components": "^5.1.26",
     "tailwindcss-animate": "^1.0.5"
   }

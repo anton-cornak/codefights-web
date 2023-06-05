@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface FormData {
   eventName: string;
   eventDescription: string;
+  eventDate: Date;
 }
 
 interface ImageState {
@@ -22,15 +25,17 @@ const ImageUploadNEW = () => {
   const validationSchema = Yup.object({
     eventName: Yup.string().required('Event Name is required').max(60, 'Event Name must not exceed 60 characters'),
     eventDescription: Yup.string().required('Event Description is required').max(120, 'Event Description must not exceed 120 characters'),
+    eventDate: Yup.date().required('Event Date is required'), 
   });
 
   const handleSubmit = async (values: FormData) => {
-    const { eventName, eventDescription } = values;
+    const { eventName, eventDescription, eventDate } = values;
 
     let formData = new FormData();
     formData.append('eventImage', image.data as File);
     formData.append('eventName', eventName);
     formData.append('eventDescription', eventDescription);
+    formData.append('eventDate', eventDate.toISOString()); // Convert date to a string format, such as ISO string
 
     console.log('FormData:', formData);
 
@@ -40,8 +45,8 @@ const ImageUploadNEW = () => {
       method: 'POST',
       body: formData,
       headers: {
-      Token: `Bearer ${token}`,
-    },
+        Token: `Bearer ${token}`,
+      },
     });
 
     console.log('Response:', response);
@@ -73,11 +78,12 @@ const ImageUploadNEW = () => {
         initialValues={{
           eventName: '',
           eventDescription: '',
+          eventDate: new Date(), // Set the initial value to the current date or any other default value
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue }) => ( // Access setFieldValue from Formik props
+        {({ setFieldValue, values }) => ( // Access setFieldValue and values from Formik props
           <Form>
             <div className="mb-4">
               <label htmlFor="eventName" className="block font-medium text-black dark:text-white mt-6">
@@ -103,6 +109,20 @@ const ImageUploadNEW = () => {
                 className="mt-1 px-3 py-2 border border-black dark:border-white bg-white dark:bg-white rounded-lg w-full h-40 focus:outline-none focus:ring-2 focus:ring-gray-600"
               />
               <ErrorMessage name="eventDescription" component="div" className="text-red-500" />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="eventDate" className="block font-medium text-black dark:text-white mt-6">
+                Event Date
+              </label>
+              <DatePicker
+                id="eventDate"
+                name="eventDate"
+                className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+                selected={values.eventDate}
+                onChange={(date) => setFieldValue('eventDate', date)}
+              />
+              <ErrorMessage name="eventDate" component="div" className="text-red-500" />
             </div>
 
             <div className="mb-4">
