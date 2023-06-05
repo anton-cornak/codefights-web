@@ -7,9 +7,11 @@ interface StartEventButtonProps {
 }
 
 const StartEventButton: React.FC<StartEventButtonProps> = ({ eventId, token }) => {
+  const startEventUrl: string = process.env.NEXT_PUBLIC_STARTEVENT_URL + `/${eventId}`;
+
   const startEvent = () => {
     axios
-      .post(`http://localhost:8080/start-competition/${eventId}`, {}, {
+      .post(startEventUrl, {}, {
         headers: {
           Token: `Bearer ${token}`,
         },

@@ -21,8 +21,10 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const loginUrl: string = process.env.NEXT_PUBLIC_LOGIN_URL!;
+        
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post(loginUrl, {
         username: username,
         password: password,
       });

@@ -46,7 +46,9 @@ const Registration = () => {
 
     console.log(formData);
 
-    fetch('http://localhost:3001/api/register', {
+    const registrationUrl: string = process.env.NEXT_PUBLIC_REGISTRATION_URL!;
+
+    fetch(registrationUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

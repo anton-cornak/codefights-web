@@ -13,10 +13,11 @@ const EventsPage: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-
     useEffect(() => {
+    const eventsUrl: string = process.env.NEXT_PUBLIC_EVENTS_URL!;
+
         axios
-            .get('http://localhost:8080/events')
+            .get(eventsUrl)
             .then((response) => {
                 const eventData = response.data.map((event: any) => ({
                     _id: event._id,

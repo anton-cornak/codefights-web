@@ -8,8 +8,10 @@ const LogoutButton = () => {
     const username = localStorage.getItem("username");
     const token = localStorage.getItem("token");
 
+    const logoutUrl: string = process.env.NEXT_PUBLIC_LOGOUT_URL + `/${username}`;
+ 
     try {
-      await axios.post(`http://localhost:8080/logout/${username}`, null, {
+      await axios.post(logoutUrl,null,{
         headers: {
           Token: `Bearer ${token}`,
         },

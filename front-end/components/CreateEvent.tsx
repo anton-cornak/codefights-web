@@ -41,7 +41,9 @@ const ImageUploadNEW = () => {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch('http://localhost:8080/image', {
+    const apiUrl: string = process.env.NEXT_PUBLIC_CREATEEVENT_URL!;
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       body: formData,
       headers: {
