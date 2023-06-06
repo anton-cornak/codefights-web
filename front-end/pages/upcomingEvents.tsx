@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function upcomingEvents() {
 
     const [showPopup, setShowPopup] = useState(false);
-    const [location, setLocation] = useState("java");
+    const [location, setLocation] = useState("csharp");
 
     const handleButtonClick = (language: string) => {
         setLocation(language);
@@ -33,13 +33,13 @@ export default function upcomingEvents() {
 
 
                 <div className="grid grid-cols-2 grid-rows-2 h-50 pl-20 pr-20">
-                    <a onClick={() => handleButtonClick("java")} className="cursor-pointer">
+                    <a onClick={() => handleButtonClick("csharp")} className="cursor-pointer">
                         <div  className="grid grid-cols-2 py-5">
                             <div>
                                 <Image className="flex opacity-60  rounded-xl" src="/characters/jaro.jpg" alt="jaro" width={300} height={300} />
                             </div>
                             <div><LargeHeading size={"lg"} className="py-3">
-                                Java #1
+                                C# #1
                             </LargeHeading>
                                 <Paragraph size={"sm"} className="font-thin text-left">
                                     example of description
