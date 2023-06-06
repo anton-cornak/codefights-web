@@ -3,7 +3,7 @@ import axios from 'axios';
 import StartEventButton from '../components/StartEventButton';
 
 interface Event {
-  _id: string;
+  eventId: string;
   name: string;
   description: string;
   photo: string;
@@ -20,7 +20,7 @@ const EventsPage: React.FC = () => {
             .get(eventsUrl)
             .then((response) => {
                 const eventData = response.data.map((event: any) => ({
-                    _id: event._id,
+                    eventId: event.eventId,
                     name: event.name,
                     description: event.description,
                     photo: `data:image/jpeg;base64,${event.photo}`,
@@ -45,11 +45,11 @@ const EventsPage: React.FC = () => {
                 : (
                     <div className="flex flex-wrap justify-center mt-8">
                         {events.map((event) => (
-                            <div key={event._id} className="w-1/2 lg:w-1/2 p-4">
+                            <div key={event.eventId} className="w-1/2 lg:w-1/2 p-4">
                                 <h3 className='text-3xl'>{event.name}</h3>
                                 <p>{event.description}</p>
                                 <img src={event.photo} alt="Event" className="h-64 w-132" />
-                                <StartEventButton eventId={event._id} token={token} />
+                                <StartEventButton eventId={event.eventId} token={token} />
                             </div>
                         ))}
                     </div>
@@ -58,5 +58,3 @@ const EventsPage: React.FC = () => {
     );
 }
 export default EventsPage;
-
-
