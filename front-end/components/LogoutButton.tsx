@@ -5,15 +5,15 @@ import router from "next/router";
 
 const LogoutButton = () => {
   const handleLogout = async () => {
-    const username = localStorage.getItem("username");
+    // const username = localStorage.getItem("username");
     const token = localStorage.getItem("token");
 
-    const logoutUrl: string = process.env.NEXT_PUBLIC_LOGOUT_URL + `/${username}`;
+    const logoutUrl: string = process.env.NEXT_PUBLIC_LOGOUT_URL!;
  
     try {
       await axios.post(logoutUrl,null,{
         headers: {
-          Token: `Bearer ${token}`,
+          Token: token,
         },
       });
 

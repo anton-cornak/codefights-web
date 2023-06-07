@@ -19,7 +19,7 @@ const StartEventButton: React.FC<StartEventButtonProps> = ({ eventId, token }) =
           {},
           {
             headers: {
-              Token: `Bearer ${token}`,
+              Token: token,
             },
           }
         )

@@ -12,7 +12,7 @@ const Admin = () => {
     if (!isLoggedIn) {
       // User is not logged in, redirect to the login page
       router.push("/login");
-    } else if (userRole !== "ADMIN") {
+    } else if (userRole !== "admin") {
       // User role doesn't match the required role for the route, redirect to unauthorized page
       router.push("/403");
     }

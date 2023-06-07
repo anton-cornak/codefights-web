@@ -39,7 +39,7 @@ const LoginForm = () => {
       localStorage.setItem("role", role);
 
       if (role === "USER" || role === "ADMIN") {
-        router.push("/eventsNEW");
+        router.push("/latestEvents");
       }
     } catch (error) {
       console.error(error);

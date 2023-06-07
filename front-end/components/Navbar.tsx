@@ -53,9 +53,9 @@ const Navbar = () : JSX.Element => {
 					UPCOMING_EVENTS
 				</Link>
 
-        <Link href="/eventsNEW" passHref>
+        <Link href="/latestEvents" passHref>
           <button className={buttonVariants({ variant: 'link' })}>
-            EVENTS
+            LATEST_EVENTS
           </button>
         </Link>
 
