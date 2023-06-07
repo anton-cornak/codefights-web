@@ -21,9 +21,8 @@ function addAnimation(): void {
 					span.style.animationDelay = `${index * 0.04}s`;
 					textElement.appendChild(span);
 				});
-				console.log("Counter: " + counter + " arr: " + arr.length);
+
 				if (counter != arr.length) {
-					console.log("true");
 					textElement.innerHTML =
 						textElement.innerHTML + "&nbsp;&nbsp;";
 				}
@@ -39,7 +38,7 @@ function TextAnimation(): JSX.Element {
 
 	return (
 		<div>
-			<Paragraph className="font-bruno text-animation">
+			<Paragraph size={"lg"} className="font-bruno text-animation">
 				TEAMWORK IS ESSENTIAL
 			</Paragraph>
 		</div>

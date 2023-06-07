@@ -1,25 +1,38 @@
-import React, { useState } from "react";
-
-import Button, { buttonVariants } from "@/components/ui/Button";
+import React from "react";
+import Button, { buttonVariants } from "@/components/Button";
 import LargeHeading from "@/components/ui/LargeHeading";
 import TextAnimation from "@/components/ui/TextAnimation";
 import axios from "axios";
-import type { Metadata } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
 
-export const metadata: Metadata = {
-	title: "VISMA WARS",
-	description: "KASV project for Vsima employees",
+const HandleGetTask = async (router: any) => {
+	try {
+		const url = process.env.NEXT_PUBLIC_API_URL1 ?? "";
+		const headers = {
+			language: router.query.events,
+		};
+
+		const response = await axios.get(url, { headers });
+		return response.data[Math.floor(Math.random() * response.data.length)]
+			.task;
+	} catch (error) {
+		console.error(error);
+	}
+
+	return "null";
 };
 
 const HandleSubmitTask = async (codeSnippet: string) => {
 	const asciiString = codeSnippet;
 	const encodedAsciiString = btoa(asciiString);
-	console.log(encodedAsciiString);
 
 	try {
-		const url = "http://10.11.65.63:9090/submit-task";
+		const url = process.env.NEXT_PUBLIC_API_URL2 ?? "";
 		const data = {
-			language: "csharp",
+			id: 3,
+			language: window.location.href.split("/")[4],
 			method: "challenge1",
 			code: encodedAsciiString,
 		};
@@ -28,20 +41,32 @@ const HandleSubmitTask = async (codeSnippet: string) => {
 			"Content-Type": "application/json",
 			teamname: "marek",
 		};
+
 		const response = await axios.post(url, data, { headers });
-		console.log(response.data);
+		return response.data.Passed + " Tests passed! [SUCCESSFUL]";
 	} catch (error) {
-		console.error(error);
+		return "[FAILED] 0 Tests passed!";
 	}
 };
 
 export default function Events() {
 	const [inputValue, setInputValue] = useState("");
+	const [data, setChallengeData] = useState("null");
+	const router = useRouter();
+	const [response, setResponse] = useState("");
 
 	const handleChange = (event: any) => {
 		const newValue = event.target.value;
 		setInputValue(newValue);
 	};
+
+	const submit = (codeSnippet: string) => {
+		HandleSubmitTask(codeSnippet).then((res) => setResponse(res));
+	};
+
+	useEffect(() => {
+		HandleGetTask(router).then((data) => setChallengeData(data));
+	}, [router]);
 	return (
 		<>
 			<div className=" relative h-screen overflow-x-hidden bg-black">
@@ -61,10 +86,18 @@ export default function Events() {
 					<div className="flex h-[40rem] w-full flex-col items-end gap-4">
 						<div className="grid w-full flex-1 grid-cols-2 gap-4">
 							<div className="grid-span-2 mx-right focus:ring-green focus:border-green resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner">
-								<h1 className="text-2xl font-bold">
-									Challenge 1:
-								</h1>
-								<p className="">Convert abdc to 1234</p>
+								{data === "null" ? (
+									<ClipLoader
+										className=""
+										color={"#ffffff"}
+										loading={true}
+										size={60}
+										aria-label="Loading Spinner"
+										data-testid="loader"
+									/>
+								) : (
+									data
+								)}
 							</div>
 							<div className="flex w-full flex-1 flex-col gap-4">
 								<textarea
@@ -75,7 +108,8 @@ export default function Events() {
 								/>
 								<textarea
 									placeholder="tests"
-									className="mx-left focus:ring-green focus:border-green h-full w-1/2 w-full resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
+									className="mx-left focus:ring-green focus:border-green h-full w-full resize-none appearance-none overflow-auto rounded border bg-gray-800  px-2 leading-tight text-slate-100 shadow focus:shadow-inner"
+									value={response}
 								/>
 							</div>
 						</div>
@@ -85,9 +119,6 @@ export default function Events() {
 									"w-fit" +
 									buttonVariants({ variant: "outline" })
 								}
-								onClick={() => {
-									HandleSubmitTask(inputValue);
-								}}
 							>
 								RUN
 							</Button>
@@ -97,7 +128,7 @@ export default function Events() {
 									buttonVariants({ variant: "default" })
 								}
 								onClick={() => {
-									HandleSubmitTask(inputValue);
+									submit(inputValue);
 								}}
 							>
 								SEND

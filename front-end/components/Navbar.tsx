@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "./Button";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Navbar = (): JSX.Element => {
 	const { data: session } = useSession();
@@ -11,22 +12,25 @@ const Navbar = (): JSX.Element => {
 
 	const [active, setActive] = useState(false);
 
+	const handleClick = () => {
+		setActive(!active);
+	};
+
 	return (
-		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black ">
-			<div className="container flex items-center justify-center gap-1">
-				<Link href="/" className={buttonVariants({ variant: "link" })}>
-					HOME
+		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b-[0.1rem] border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black ">
+			<div className="container flex items-center justify-start gap-5">
+				<Link href="/">
+					<Image
+						className=" left-0 h-[2.5remw] w-[2.5rem]"
+						src="/gulicka.png"
+						alt="Logo"
+						width={50}
+						height={50}
+					/>
 				</Link>
 
 				<Link
-					href="/events"
-					className={buttonVariants({ variant: "link" })}
-				>
-					EVENTS
-				</Link>
-
-				<Link
-					href="/upcomingevents"
+					href="/upcomingEvents"
 					className={buttonVariants({ variant: "link" })}
 				>
 					UPCOMING_EVENTS
