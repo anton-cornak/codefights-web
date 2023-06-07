@@ -1,50 +1,57 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import BoxShadowImage from "./BoxShadowImage";
-import { buttonVariants } from './Button'
+import { buttonVariants } from "./Button";
 
-const languageOptions = [
-  { value: 1, label: "Python" },
-  { value: 2, label: "goLang" },
-  { value: 3, label: "C#" },
+const languageOptions: { value: number; label: string }[] = [
+	{ value: 1, label: "Python" },
+	{ value: 2, label: "goLang" },
+	{ value: 3, label: "C#" },
 ];
 
-const Registration = () => {
-  const [teamName, setTeamName] = useState("");
-  const [members, setMembers] = useState<string[]>([]);
-  const [emails, setEmails] = useState<string[]>([]);
-  const [languageID, setLanguageID] = useState(1);
-  const [ai, setAi] = useState(false);
-  const router = useRouter();
+const Registration = (): JSX.Element => {
+	const [teamName, setTeamName] = useState("");
+	const [members, setMembers] = useState<string[]>([]);
+	const [emails, setEmails] = useState<string[]>([]);
+	const [languageID, setLanguageID] = useState(1);
+	const [ai, setAi] = useState(false);
+	const router = useRouter();
 
-  // Define the validation schema using Yup
-  const validationSchema = Yup.object({
-    teamName: Yup.string().required('Team Name is required').max(30, 'Team Name must not exceed 30 characters'),
-    members: Yup.array().of(Yup.string().required('Member name is required')),
-    emails: Yup.array()
-      .of(Yup.string().email('Invalid email address').required('Email is required')),
-    languageID: Yup.number().required('Language is required'),
-  });
+	// Define the validation schema using Yup
+	const validationSchema = Yup.object({
+		teamName: Yup.string()
+			.required("Team Name is required")
+			.max(30, "Team Name must not exceed 30 characters"),
+		members: Yup.array().of(
+			Yup.string().required("Member name is required"),
+		),
+		emails: Yup.array().of(
+			Yup.string()
+				.email("Invalid email address")
+				.required("Email is required"),
+		),
+		languageID: Yup.number().required("Language is required"),
+	});
 
-  const handleSubmit = (values: {
-    teamName: string;
-    members: string[];
-    emails: string[];
-    languageID: number;
-    ai: boolean;
-  }) => {
-    const formData = {
-      teamname: values.teamName,
-      members: values.members,
-      emails: values.emails,
-      languageID: values.languageID,
-      ai: values.ai,
-    };
+	const handleSubmit = (values: {
+		teamName: string;
+		members: string[];
+		emails: string[];
+		languageID: number;
+		ai: boolean;
+	}) => {
+		const formData = {
+			teamname: values.teamName,
+			members: values.members,
+			emails: values.emails,
+			languageID: values.languageID,
+			ai: values.ai,
+		};
 
-    console.log(formData);
+		console.log(formData);
 
     const registrationUrl: string = process.env.NEXT_PUBLIC_REGISTRATION_URL!;
 
@@ -67,32 +74,30 @@ const Registration = () => {
       });
   };
 
-const handleMemberChange = (
-  event: React.ChangeEvent<HTMLInputElement>,
-  index: number
-) => {
-  const { value } = event.target;
-  const newMembers = [...members];
-  newMembers[index] = value;
-  setMembers(newMembers);
-};
+	const handleMemberChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+	) => {
+		const { value } = event.target;
+		const newMembers = [...members];
+		newMembers[index] = value;
+		setMembers(newMembers);
+	};
 
-const handleEmailChange = (
-  event: React.ChangeEvent<HTMLInputElement>,
-  index: number
-) => {
-  const { value } = event.target;
-  const newEmails = [...emails];
-  newEmails[index] = value;
-  setEmails(newEmails);
-};
+	const handleEmailChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+	) => {
+		const { value } = event.target;
+		const newEmails = [...emails];
+		newEmails[index] = value;
+		setEmails(newEmails);
+	};
 
-
-
-  const handleAddMember = () => {
-    setMembers([...members, ""]);
-    setEmails([...emails, ""]);
-  };
+	const handleAddMember = () => {
+		setMembers([...members, ""]);
+		setEmails([...emails, ""]);
+	};
 
   return (
     <div>

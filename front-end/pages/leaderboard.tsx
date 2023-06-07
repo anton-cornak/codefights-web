@@ -1,57 +1,161 @@
-import React from 'react';
-import Leaderboard from '../components/LeaderboardComponent';
+import React from "react";
+import Description from "../components/LeaderBoard/Description";
+import Head from "../components/LeaderBoard/Head";
+import MiddleLine from "../components/LeaderBoard/MiddleLine";
+import RankLine from "../components/LeaderBoard/RankLine";
+import StraightLine from "../components/StraightLine";
+import "../pages/";
 
-const fakeData = [
-  {
-    tname: 'VismaFighters',
-    points: 25,
-    time: 4515,
-    ename: 'Olympiáda Marek',
-  },
-  {
-    tname: 'MarekoVci',
-    points: 30,
-    time: 4515,
-    ename: 'Olympiáda Marek',
-  },
-  {
-    tname: 'RukyMatLop',
-    points: 35,
-    time: 4515,
-    ename: 'Olympiáda Marek',
-  },
-  {
-    tname: 'TomasSekera',
-    points: 40,
-    time: 4515,
-    ename: 'Olympiáda Marek',
-  },
-  {
-    tname: 'Michalovce',
-    points: 0,
-    time: 45155,
-    ename: 'Olympiáda Marek',
-  },
-  {
-    tname: 'Poproc',
-    points: 1500,
-    time: 45,
-    ename: 'Olympiáda Marek',
-  },
-];
-
-const LeaderboardPage: React.FC = () => {
-  return <Leaderboard data={fakeData} />;
-};
-
-export async function getStaticProps() {
-  // You can perform any necessary data fetching or computations here
-
-  return {
-    props: {
-      fakeData, // Pass the fake data as a prop
-    },
-  };
+interface RankLineProps {
+	position: string;
+	teamName: string;
+	score: string;
 }
 
-export default LeaderboardPage;
+interface LeaderBoardProps {
+	leaderboardData: [RankLineProps];
+}
+
+export default function LeaderBoard({
+	leaderboardData,
+}: LeaderBoardProps): JSX.Element {
+	return (
+		<div className="bg-bgBlack">
+			{/* head */}
+			<Head />
+			{/* head */}
+
+			<StraightLine />
+
+			{/* top-teamName-score */}
+			<Description />
+			{/* top-teamName-score */}
+
+			{/* ranking */}
+			<div className="grid grid-cols-2 pb-20 ">
+				{leaderboardData.map((rank, index) => (
+					<div
+						key={index}
+						className="text-color1 flex justify-center "
+					>
+						<RankLine
+							position={rank.position}
+							teamName={rank.teamName}
+							score={rank.score}
+						/>
+					</div>
+				))}
+			</div>
+			{/* ranking */}
+
+			{/* middle line*/}
+			<MiddleLine />
+			{/* middle line */}
+		</div>
+	);
+}
+
+LeaderBoard.defaultProps = {
+	leaderboardData: [
+		{
+			position: "1",
+			teamName: "gabicka",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "janicko",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+		{
+			position: "1",
+			teamName: "teamSUfurky",
+			score: "109",
+		},
+	],
+};
