@@ -11,7 +11,7 @@ const RankLine = ({
 	score,
 }: RankLineProps): JSX.Element => {
 	return (
-		<div className="my-3 inline-flex gap-32">
+		<div className="my-3 inline-flex xl:gap-40 md:gap-6 sm:gap-0">
 			<div className="flex text-3xl">
 				<h1>{position}</h1>
 			</div>

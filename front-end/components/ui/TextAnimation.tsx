@@ -1,9 +1,20 @@
 import React, { useEffect } from "react";
 import Paragraph from "@/components/ui/Paragraph";
+import React, { useEffect } from "react";
+import Paragraph from "@/components/ui/Paragraph";
 
 function addAnimation(): void {
 	const textElements = document.querySelectorAll(".text-animation");
+function addAnimation(): void {
+	const textElements = document.querySelectorAll(".text-animation");
 
+	for (let i = 0; i < textElements.length; i++) {
+		setTimeout(() => {
+			const textElement = textElements[i];
+			const textContent = textElement?.textContent;
+			if (!textContent) return;
+			const arr = textContent.split(" ");
+			textElement.textContent = "";
 	for (let i = 0; i < textElements.length; i++) {
 		setTimeout(() => {
 			const textElement = textElements[i];
@@ -36,13 +47,14 @@ function TextAnimation(): JSX.Element {
 		addAnimation();
 	}, []);
 
-	return (
-		<div>
-			<Paragraph size={"lg"} className="font-bruno text-animation">
-				TEAMWORK IS ESSENTIAL
-			</Paragraph>
-		</div>
-	);
+
+  return (
+    <div>
+        <Paragraph className="font-bruno text-animation">TEAMWORK IS ESSENTIAL</Paragraph>
+    </div>
+  );
 }
+
+export default TextAnimation;
 
 export default TextAnimation;

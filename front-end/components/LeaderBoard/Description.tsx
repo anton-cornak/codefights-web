@@ -11,7 +11,13 @@ const Description = (): JSX.Element => {
 				<div>
 					<p>TEAM NAME</p>
 				</div>
+				<div>
+					<p>TEAM NAME</p>
+				</div>
 
+				<div>
+					<p>SCORE</p>
+				</div>
 				<div>
 					<p>SCORE</p>
 				</div>
@@ -23,7 +29,17 @@ const Description = (): JSX.Element => {
 				<div>
 					<p>TEAM NAME</p>
 				</div>
+				<div>
+					<p>TEAM NAME</p>
+				</div>
 
+				<div>
+					<p>SCORE</p>
+				</div>
+			</div>
+		</div>
+	);
+};
 				<div>
 					<p>SCORE</p>
 				</div>

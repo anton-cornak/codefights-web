@@ -11,7 +11,6 @@ interface RankLineProps {
 	teamName: string;
 	score: string;
 }
-
 interface LeaderBoardProps {
 	leaderboardData: [RankLineProps];
 }
@@ -20,7 +19,7 @@ export default function LeaderBoard({
 	leaderboardData,
 }: LeaderBoardProps): JSX.Element {
 	return (
-		<div className="bg-bgBlack">
+		<div className="bg-bgBlack font-bruno">
 			{/* head */}
 			<Head />
 			{/* head */}
@@ -59,12 +58,12 @@ LeaderBoard.defaultProps = {
 	leaderboardData: [
 		{
 			position: "1",
-			teamName: "gabicka",
+			teamName: "dfsfdsa",
 			score: "109",
 		},
 		{
 			position: "1",
-			teamName: "janicko",
+			teamName: "fdsfsd",
 			score: "109",
 		},
 		{
