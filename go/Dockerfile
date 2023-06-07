@@ -1,17 +1,15 @@
-# syntax=docker/dockerfile:1
+# Base image
+FROM golang:latest
 
-FROM golang:1.16-alpine
+RUN mkdir /build
+WORKDIR /build
+RUN export GO111MODULE=on
 
-WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
+# Build the application
+RUN cd /go/api && go build
 
-COPY *.go ./
+EXPOSE 9090
 
-RUN go build -o /docker-gs-ping
-
-EXPOSE 8080
-
-CMD [ "/docker-gs-ping" ]
+# Command to run the application
+CMD ["/go/api/main/main"]
