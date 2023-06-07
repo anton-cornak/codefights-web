@@ -17,7 +17,7 @@ export const buttonVariants = cva(
 				ghost: "font-bruno bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400 data-[state-open]:bg-transparent dark:data-[state=open]:bg-transparent",
 				link: " font-bruno bg-transparent dark:bg-transparent underline-offset-4 hover:underline text-color1 dark:text-color1 hover:bg-transparent dark:hover:bg-transparent",
 			},
-			size: {	
+			size: {
 				default: "h-10 py-2 px-4",
 				sm: "h-9 py-1 rounded-md",
 				ls: "h-11 py-8 rounded-md",

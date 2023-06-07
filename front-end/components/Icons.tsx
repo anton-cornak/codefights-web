@@ -1,5 +1,3 @@
-import React from "react";
-
 import { ChevronLeft, ChevronRight, Moon, Sun } from "lucide-react";
 
 export const Icons = {
