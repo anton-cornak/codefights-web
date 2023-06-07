@@ -38,12 +38,11 @@ const EventsPage: React.FC = () => {
 
     return (
     <div className="bg-white dark:bg-black">
-   <h1 className="text-5xl mt-120">Upcoming Events</h1>
-            <hr className="border-t-2 border-black w-2/3" />
-
-            {isLoading ? (<div className="text-center mt-8 text-lg">Loading events...</div>)
+               {isLoading ? (<div className="text-center mt-8 text-lg">Loading events...</div>)
                 : (
                     <div className="flex flex-wrap justify-center mt-8">
+                        <h1 className="text-5xl mt-120">Upcoming Events</h1>
+                          <hr className="border-t-2 border-black w-2/3" />
                         {events.map((event) => (
                             <div key={event.eventId} className="w-1/2 lg:w-1/2 p-4">
                                 <h3 className='text-3xl'>{event.name}</h3>

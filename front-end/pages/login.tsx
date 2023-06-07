@@ -86,7 +86,6 @@ const LoginForm = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-          <LogoutButton />
         </form>
       </div>
       <div className="md:shrink-0 mr-16 mt-0 ml-16">
