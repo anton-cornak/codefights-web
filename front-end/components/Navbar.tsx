@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "./Button";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Navbar = (): JSX.Element => {
 	const { data: session } = useSession();
@@ -21,9 +22,9 @@ const Navbar = (): JSX.Element => {
         <div className='sticky w-full backdrop-blur-sm bg-white/75 dark:bg-black z-50 top-0 left-0 right-0 h-20 border-b-[0.1rem] border-slate-300 dark:border-slate-600 shadow-sm flex '>
 
             <div className='container flex gap-5 justify-start items-center'>
-                <a href="/">
-                    <img className=' left-0 w-[2.5rem] h-[2.5remw]' src="/gulicka.png" alt="Logo" />
-                </a>
+                <Link href="/">
+                    <Image className=' left-0 w-[2.5rem] h-[2.5remw]' src="/gulicka.png" alt="Logo" />
+                </Link>
 
 
                 <Link href='/upcomingEvents' className={buttonVariants({ variant: 'link' })}>

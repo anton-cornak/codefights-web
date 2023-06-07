@@ -4,7 +4,7 @@ import LargeHeading from "@/components/ui/LargeHeading";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function upcomingEvents() {
+export default function UpcomingEvents() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [location, setLocation] = useState("csharp");
