@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -6,13 +6,13 @@ import * as Yup from "yup";
 import BoxShadowImage from "./BoxShadowImage";
 import { buttonVariants } from "./Button";
 
-const languageOptions: { value: number; label: string }[] = [
+const languageOptions = [
 	{ value: 1, label: "Python" },
 	{ value: 2, label: "goLang" },
 	{ value: 3, label: "C#" },
 ];
 
-const Registration = (): JSX.Element => {
+const Registration = () => {
 	const [teamName, setTeamName] = useState("");
 	const [members, setMembers] = useState<string[]>([]);
 	const [emails, setEmails] = useState<string[]>([]);
@@ -53,7 +53,10 @@ const Registration = (): JSX.Element => {
 
 		console.log(formData);
 
-		fetch("http://localhost:3001/api/register", {
+		const registrationUrl: string =
+			process.env.NEXT_PUBLIC_REGISTRATION_URL!;
+
+		fetch(registrationUrl, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -101,9 +104,10 @@ const Registration = (): JSX.Element => {
 		<div>
 			<div className="md:flex">
 				<div className="p-8">
-					<div className="text-grey-700 text-2xl font-semibold uppercase tracking-wide">
+					{/* <div className="uppercase tracking-wide text-2xl text-grey-700 font-semibold"> */}
+					<h1 className="text-5xl text-black dark:text-white">
 						registration
-					</div>
+					</h1>
 					<Formik
 						initialValues={{
 							teamName: "",
@@ -115,11 +119,11 @@ const Registration = (): JSX.Element => {
 						validationSchema={validationSchema}
 						onSubmit={handleSubmit}
 					>
-						<Form className="hover:text-grey-700 mt-1 block text-lg font-medium leading-tight text-black">
+						<Form className="mt-1 block text-lg font-medium leading-tight text-black dark:text-white">
 							<div className="mb-4">
 								<label
 									htmlFor="teamname"
-									className="mt-6 block font-medium text-gray-700"
+									className="mt-6 block font-medium text-black dark:text-white"
 								>
 									Team Name
 								</label>
@@ -138,7 +142,7 @@ const Registration = (): JSX.Element => {
 							<div className="mb-4">
 								<label
 									htmlFor="members"
-									className="block font-medium text-gray-700"
+									className="block font-medium text-black dark:text-white"
 								>
 									Members
 								</label>
@@ -163,7 +167,7 @@ const Registration = (): JSX.Element => {
 								))}
 								<button
 									type="button"
-									className="bg-custom_light_grey hover:bg-custom_green focus:ring-custom_green rounded-sm px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2"
+									className="bg-custom_light_grey hover:bg-custom_green focus:ring-custom_green rounded-sm px-4 py-2 text-sm font-medium text-black focus:outline-none focus:ring-2 dark:text-white"
 									onClick={handleAddMember}
 								>
 									Add Member
@@ -182,7 +186,7 @@ const Registration = (): JSX.Element => {
 							<div className="mb-4">
 								<label
 									htmlFor="language"
-									className="block font-medium text-gray-700"
+									className="block font-medium text-black dark:text-white"
 								>
 									Language
 								</label>
@@ -217,7 +221,7 @@ const Registration = (): JSX.Element => {
 									/>
 									<label
 										htmlFor="ai"
-										className="font-medium text-gray-700"
+										className="font-medium text-black dark:text-white"
 									>
 										AI
 									</label>
@@ -233,8 +237,8 @@ const Registration = (): JSX.Element => {
 									Register
 								</button>
 								<Link
-									href="/"
-									className="hover:text-custom_green mt-2 px-4 py-2 text-sm font-medium text-black sm:ml-2 sm:mt-0"
+									href="/signin"
+									className="hover:text-custom_green mt-2 px-4 py-2 text-sm font-medium text-black dark:text-white sm:ml-2 sm:mt-0"
 								>
 									Already registered? Log in.
 								</Link>
@@ -242,11 +246,11 @@ const Registration = (): JSX.Element => {
 						</Form>
 					</Formik>
 				</div>
-				<div className="ml-16 mr-16 mt-10 md:shrink-0">
+				<div className="ml-16 mr-16 mt-0 md:shrink-0">
 					<BoxShadowImage
 						alt="Example Image"
 						src="registrationImage.jpg"
-						width={350}
+						width={450}
 						height={350}
 					/>
 				</div>

@@ -1,79 +1,77 @@
-import React, { useState } from "react";
-
 import Link from "next/link";
 import { buttonVariants } from "./Button";
-import { signOut, useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import Toggle from "../components/Toggle";
+import LogoutButton from "./LogoutButton";
 
-const Navbar = (): JSX.Element => {
-	const { data: session } = useSession();
-
-	const user = session?.user;
-
+const Navbar = () => {
 	const [active, setActive] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+	const checkAuthentication = () => {
+		const token = localStorage.getItem("token");
+		const username = localStorage.getItem("username");
+		const role = localStorage.getItem("role");
+
+		// Check if the token and other necessary data exist
+		if (token && username && role) {
+			return true; // User is authenticated
+		} else {
+			return false; // User is not authenticated
+		}
+	};
+
+	useEffect(() => {
+		// Call the checkAuthentication function
+		const authenticated = checkAuthentication();
+		setIsAuthenticated(authenticated);
+	}, []);
 
 	return (
-		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black ">
-			<div className="container flex items-center justify-center gap-1">
-				<Link href="/" className={buttonVariants({ variant: "link" })}>
-					HOME
+		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full items-center justify-center border-b border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black">
+			<div className="max-width-7xl container mx-auto flex w-full items-center justify-center">
+				<Link href="/" passHref>
+					<button className={buttonVariants({ variant: "link" })}>
+						HOME
+					</button>
 				</Link>
 
-				<Link
-					href="/events"
-					className={buttonVariants({ variant: "link" })}
-				>
-					EVENTS
+				<Link href="/eventsNEW" passHref>
+					<button className={buttonVariants({ variant: "link" })}>
+						EVENTS
+					</button>
 				</Link>
 
-				<Link
-					href="/upcomingevents"
-					className={buttonVariants({ variant: "link" })}
-				>
-					UPCOMING_EVENTS
-				</Link>
-
-				<Link
-					href="/latestevents"
-					className={buttonVariants({ variant: "link" })}
-				>
-					LATEST_EVENTS
-				</Link>
-
-				<Link
-					href="/leaderboard"
-					className={buttonVariants({ variant: "link" })}
-				>
-					LEADERBOARD
+				<Link href="/leaderboard" passHref>
+					<button className={buttonVariants({ variant: "link" })}>
+						LEADERBOARD
+					</button>
 				</Link>
 			</div>
 
-			<div className="container flex w-64 items-center justify-center">
-				<div className="hidden gap-4  uppercase md:flex">
-					<Link
-						className={buttonVariants({ variant: "default" })}
-						href="/registration"
-					>
-						register
+			<div className="max-width-7xl container mx-auto flex w-full items-center justify-center">
+				<div className="hidden gap-4 uppercase md:flex">
+					<Link href="/registration" passHref>
+						<button
+							className={buttonVariants({ variant: "default" })}
+						>
+							register
+						</button>
 					</Link>
-					{user ? (
-						<>
+					{isAuthenticated ? (
+						<LogoutButton />
+					) : (
+						<Link href="/login" passHref>
 							<button
 								className={buttonVariants({
 									variant: "default",
 								})}
-								onClick={() => signOut()}
 							>
-								Sign Out
+								login
 							</button>
-						</>
-					) : (
-						<Link
-							className={buttonVariants({ variant: "default" })}
-							href="/signin"
-						>
-							login
 						</Link>
 					)}
+					<Toggle />
 				</div>
 			</div>
 		</div>

@@ -1,29 +1,28 @@
-// pages/admin.tsx
-import React from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import CreateEvent from "@/components/CreateEvent";
 
-import Link from "next/link";
-import { signOut } from "next-auth/react";
+const Admin = () => {
+	const router = useRouter();
 
-const AdminPage = (): JSX.Element => {
+	useEffect(() => {
+		const isLoggedIn = !!localStorage.getItem("token");
+		const userRole = localStorage.getItem("role");
+
+		if (!isLoggedIn) {
+			// User is not logged in, redirect to the login page
+			router.push("/login");
+		} else if (userRole !== "ADMIN") {
+			// User role doesn't match the required role for the route, redirect to unauthorized page
+			router.push("/403");
+		}
+	}, []);
+
 	return (
-		<div className="container">
-			<div className="grid min-h-screen place-content-center">
-				<div className="flex flex-col gap-4">
-					<h1 className="text-4xl">Admin Page</h1>
-
-					<Link className="btn btn-primary" href="/">
-						Go to Index Page
-					</Link>
-					<button
-						className="btn btn-accent btn-outline"
-						onClick={() => signOut()}
-					>
-						Sign Out
-					</button>
-				</div>
-			</div>
-		</div>
+		<>
+			<CreateEvent />
+		</>
 	);
 };
 
-export default AdminPage;
+export default Admin;
