@@ -1,43 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { buttonVariants } from "../components/Button";
 import router from "next/router";
 
 const LogoutButton = () => {
-  const handleLogout = async () => {
-    // const username = localStorage.getItem("username");
-    const token = localStorage.getItem("token");
+  const [loggingOut, setLoggingOut] = useState(false);
 
-    const logoutUrl: string = process.env.NEXT_PUBLIC_LOGOUT_URL!;
- 
+  const handleLogout = async () => {
+    setLoggingOut(true);
+
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const logoutUrl = process.env.NEXT_PUBLIC_LOGOUT_URL + `/${username}`;
+
     try {
-      await axios.post(logoutUrl,null,{
+      await axios.post(logoutUrl, null, {
         headers: {
-          Token: token,
+          Token: `Bearer ${token}`,
         },
       });
 
-      alert("logged out successfully");
-      router.push("/login");
-
-      // Clear the token and perform any additional actions upon successful logout
+      // Perform any additional actions upon successful logout
       localStorage.removeItem("token");
       localStorage.removeItem("username");
       localStorage.removeItem("role");
-      //   localStorage.clear();
-
-      //refresni inak sa localstorage nevycisti
-      window.location.reload();
-
-      console.log("LocalStorage items removed");
-      // Additional logout actions...
     } catch (error) {
       console.error(error);
       // Handle error, show error message, etc.
+    } finally {
+      setLoggingOut(false); // Reset the loggingOut state to false
     }
   };
 
-  return <button className={buttonVariants({ variant: 'default' })} onClick={handleLogout}>Logout</button>;
+  useEffect(() => {
+    if (loggingOut) {
+      // Redirect to /login after logging out
+      router.push("/login");
+    }
+  }, [loggingOut]);
+
+  return (
+    <button
+      className={buttonVariants({ variant: "default" })}
+      onClick={handleLogout}
+      disabled={loggingOut} // Disable the button during the logout process
+    >
+      {loggingOut ? "Logging out..." : "Logout"}
+    </button>
+  );
 };
 
 export default LogoutButton;

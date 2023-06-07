@@ -43,7 +43,7 @@ export default function LeaderBoard({
   }, []);
 
   return (
-    <div className="bg-bgBlack font-bruno h-auto">
+    <div className="bg-white dark:bg-black">
       {/* head */}
       <Head />
       {/* head */}

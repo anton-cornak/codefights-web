@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import LogoutButton from "../components/LogoutButton";
 import BoxShadowImage from "../components/BoxShadowImage";
+import { buttonVariants } from "@/components/Button";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -81,7 +82,7 @@ const LoginForm = () => {
           {errorMessage && <p className="error text-red-600"> {errorMessage} </p>}
           <button
             type="submit"
-            className="px-4 py-2 text-sm font-medium text-black dark:text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
+            className={buttonVariants({ variant: 'default' })}
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}

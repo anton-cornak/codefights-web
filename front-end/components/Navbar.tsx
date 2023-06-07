@@ -5,15 +5,15 @@ import Toggle from '../components/Toggle';
 import LogoutButton from './LogoutButton';
 import Image from "next/image";
 
-const Navbar = () : JSX.Element => {
+const Navbar = (): JSX.Element => {
   const [active, setActive] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-	const handleClick = () => {
-		setActive(!active);
+  const handleClick = () => {
+    setActive(!active);
   };
-  
-    const checkAuthentication = () => {
+
+  const checkAuthentication = () => {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
     const role = localStorage.getItem('role');
@@ -32,26 +32,35 @@ const Navbar = () : JSX.Element => {
     setIsAuthenticated(authenticated);
   }, []);
 
+  useEffect(() => {
+    // Call the checkAuthentication function periodically to update the authentication status
+    const interval = setInterval(() => {
+      const authenticated = checkAuthentication();
+      setIsAuthenticated(authenticated);
+    }, 1000); // Adjust the interval as needed
 
-	return (
-		<div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b-[0.1rem] border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black ">
-			<div className="container flex items-center justify-start gap-5">
-				<Link href="/">
-					<Image
-						className=" left-0 h-[2.5remw] w-[2.5rem]"
-						src="/gulicka.png"
-						alt="Logo"
-						width={50}
-						height={50}
-					/>
-				</Link>
+    return () => clearInterval(interval);
+  }, []);
 
-				<Link
-					href="/upcomingEvents"
-					className={buttonVariants({ variant: "link" })}
-				>
-					UPCOMING_EVENTS
-				</Link>
+  return (
+    <div className="sticky left-0 right-0 top-0 z-50 flex h-20 w-full border-b-[0.1rem] border-slate-300 bg-white/75 shadow-sm backdrop-blur-sm dark:border-slate-600 dark:bg-black">
+      <div className="container flex items-center justify-start gap-5">
+        <Link href="/">
+          <Image
+            className="left-0 h-[2.5remw] w-[2.5rem]"
+            src="/gulicka.png"
+            alt="Logo"
+            width={50}
+            height={50}
+          />
+        </Link>
+
+        <Link
+          href="/upcomingEvents"
+          className={buttonVariants({ variant: 'link' })}
+        >
+          UPCOMING_EVENTS
+        </Link>
 
         <Link href="/latestEvents" passHref>
           <button className={buttonVariants({ variant: 'link' })}>
