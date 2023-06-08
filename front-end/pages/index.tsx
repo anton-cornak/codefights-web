@@ -5,6 +5,7 @@ import Image from "next/image";
 
 export default function Home(): JSX.Element {
 	return (
+	<div className="bg-white dark:bg-black">
 		<div className=" relative h-screen overflow-x-hidden bg-black">
 			<div className=" bg-bgBlack text-color1">
 				{/* INTRO */}
@@ -142,6 +143,7 @@ export default function Home(): JSX.Element {
 				</div>
 				{/* REGISTRATION */}
 			</div>
-		</div>
+			</div>
+			</div>
 	);
 }

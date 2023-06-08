@@ -1,161 +1,83 @@
-import React from "react";
-import Description from "../components/LeaderBoard/Description";
+import React, { useState, useEffect } from "react";
+// import Description from "../components/LeaderBoard/Description";
 import Head from "../components/LeaderBoard/Head";
-import MiddleLine from "../components/LeaderBoard/MiddleLine";
-import RankLine from "../components/LeaderBoard/RankLine";
 import StraightLine from "../components/StraightLine";
-import "../pages/";
+import RankLine from "../components/LeaderBoard/RankLine";
 
-interface RankLineProps {
-	position: string;
-	teamName: string;
-	score: string;
+interface Team {
+  tname: string;
+  points: number;
+  time: number;
+  ename: string;
+  rank: number;
+}
+
+function sortTeamsByPointsDescending(teams: Team[]): Team[] {
+  return teams.sort((a, b) => b.points - a.points);
 }
 
 interface LeaderBoardProps {
-	leaderboardData: [RankLineProps];
+  leaderboardData: Team[];
 }
 
 export default function LeaderBoard({
-	leaderboardData,
+  leaderboardData: defaultData,
 }: LeaderBoardProps): JSX.Element {
-	return (
-		<div className="bg-bgBlack">
-			{/* head */}
-			<Head />
-			{/* head */}
+	const [leaderboardData, setLeaderboardData] = useState<Team[]>([]);
+	
+	 const leaderboardUrl: string = process.env.NEXT_PUBLIC_LEADERBOARD_URL!;
 
-			<StraightLine />
+  useEffect(() => {
+    // Fetch leaderboard data from the API
+    fetch(leaderboardUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // Sort the data by points in descending order
+        const sortedData = sortTeamsByPointsDescending(data);
+        // Update the state with the received and sorted data
+        setLeaderboardData(sortedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching leaderboard data:", error);
+      });
+  }, []);
 
-			{/* top-teamName-score */}
-			<Description />
-			{/* top-teamName-score */}
+  return (
+    <div className="bg-white dark:bg-black text-black dark:text-white">
+      {/* head */}
+      <Head />
+      {/* head */}
 
-			{/* ranking */}
-			<div className="grid grid-cols-2 pb-20 ">
-				{leaderboardData.map((rank, index) => (
-					<div
-						key={index}
-						className="text-color1 flex justify-center "
-					>
-						<RankLine
-							position={rank.position}
-							teamName={rank.teamName}
-							score={rank.score}
-						/>
-					</div>
-				))}
-			</div>
-			{/* ranking */}
+      <StraightLine />
 
-			{/* middle line*/}
-			<MiddleLine />
-			{/* middle line */}
-		</div>
-	);
+      {/* top-teamName-score */}
+      {/* <Description /> */}
+      {/* top-teamName-score */}
+
+      {/* ranking */}
+      <table className="text-black dark:text-white w-full">
+        <thead>
+          <tr className="text-2xl">
+            <th className="p-1">Top 1-{leaderboardData.length}</th>
+            <th className="p-1">Team Name</th>
+            <th className="p-1">Points</th>
+            <th className="p-1">Time</th>
+            <th className="p-1">Event Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboardData.map((team, index) => (
+            <tr key={index} className="text-xl">
+              <td className="p-1 pb-4 pl-24">{index + 1}</td>
+              <td className="p-1 pb-4">{team.tname}</td>
+              <td className="p-1 pb-4">{team.points}</td>
+              <td className="p-1 pb-4">{team.time}</td>
+              <td className="p-1 pb-4">{team.ename}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {/* ranking */}
+    </div>
+  );
 }
-
-LeaderBoard.defaultProps = {
-	leaderboardData: [
-		{
-			position: "1",
-			teamName: "gabicka",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "janicko",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-		{
-			position: "1",
-			teamName: "teamSUfurky",
-			score: "109",
-		},
-	],
-};

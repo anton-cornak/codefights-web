@@ -53,24 +53,26 @@ const Registration = (): JSX.Element => {
 
 		console.log(formData);
 
-		fetch("http://localhost:3001/api/register", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			mode: "no-cors",
-			credentials: "include",
-			body: JSON.stringify(formData),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-				router.push("/login"); // redirect to success page
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	};
+    const registrationUrl: string = process.env.NEXT_PUBLIC_REGISTRATION_URL!;
+
+    fetch(registrationUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: 'no-cors',
+      credentials: 'include',
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        router.push("/login"); // redirect to success page
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
 	const handleMemberChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
@@ -97,161 +99,126 @@ const Registration = (): JSX.Element => {
 		setEmails([...emails, ""]);
 	};
 
-	return (
-		<div>
-			<div className="md:flex">
-				<div className="p-8">
-					<div className="text-grey-700 text-2xl font-semibold uppercase tracking-wide">
-						registration
-					</div>
-					<Formik
-						initialValues={{
-							teamName: "",
-							members: [""],
-							emails: [""],
-							languageID: 1,
-							ai: false,
-						}}
-						validationSchema={validationSchema}
-						onSubmit={handleSubmit}
-					>
-						<Form className="hover:text-grey-700 mt-1 block text-lg font-medium leading-tight text-black">
-							<div className="mb-4">
-								<label
-									htmlFor="teamname"
-									className="mt-6 block font-medium text-gray-700"
-								>
-									Team Name
-								</label>
-								<Field
-									type="text"
-									id="teamname"
-									name="teamName"
-									className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
-								/>
-								<ErrorMessage
-									name="teamName"
-									component="div"
-									className="text-red-500"
-								/>
-							</div>
-							<div className="mb-4">
-								<label
-									htmlFor="members"
-									className="block font-medium text-gray-700"
-								>
-									Members
-								</label>
-								{members.map((member, index) => (
-									<div
-										key={index}
-										className="mb-2 flex space-x-2"
-									>
-										<Field
-											type="text"
-											name={`members[${index}]`}
-											className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
-											placeholder={`Member ${index + 1}`}
-										/>
-										<Field
-											type="text"
-											name={`emails[${index}]`}
-											className="focus:ring-custom_light_grey mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2"
-											placeholder="Email"
-										/>
-									</div>
-								))}
-								<button
-									type="button"
-									className="bg-custom_light_grey hover:bg-custom_green focus:ring-custom_green rounded-sm px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2"
-									onClick={handleAddMember}
-								>
-									Add Member
-								</button>
-								<ErrorMessage
-									name="members"
-									component="div"
-									className="text-red-500"
-								/>
-								<ErrorMessage
-									name="emails"
-									component="div"
-									className="text-red-500"
-								/>
-							</div>
-							<div className="mb-4">
-								<label
-									htmlFor="language"
-									className="block font-medium text-gray-700"
-								>
-									Language
-								</label>
-								<Field
-									as="select"
-									id="language"
-									name="languageID"
-									className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
-								>
-									{languageOptions.map((option) => (
-										<option
-											key={option.value}
-											value={option.value}
-										>
-											{option.label}
-										</option>
-									))}
-								</Field>
-								<ErrorMessage
-									name="languageID"
-									component="div"
-									className="text-red-500"
-								/>
-							</div>
-							<div className="mb-4">
-								<div className="flex items-center">
-									<Field
-										type="checkbox"
-										id="ai"
-										name="ai"
-										className="text-custom_green focus:ring-custom_green mr-2"
-									/>
-									<label
-										htmlFor="ai"
-										className="font-medium text-gray-700"
-									>
-										AI
-									</label>
-								</div>
-							</div>
-							<div className="flex flex-col items-start sm:flex-row sm:items-start">
-								<button
-									type="submit"
-									className={buttonVariants({
-										variant: "default",
-									})}
-								>
-									Register
-								</button>
-								<Link
-									href="/"
-									className="hover:text-custom_green mt-2 px-4 py-2 text-sm font-medium text-black sm:ml-2 sm:mt-0"
-								>
-									Already registered? Log in.
-								</Link>
-							</div>
-						</Form>
-					</Formik>
-				</div>
-				<div className="ml-16 mr-16 mt-10 md:shrink-0">
-					<BoxShadowImage
-						alt="Example Image"
-						src="registrationImage.jpg"
-						width={350}
-						height={350}
-					/>
-				</div>
-			</div>
-		</div>
-	);
-};
+  return (
+    <div>
+      <div className="md:flex">
+        <div className="p-8">
+          {/* <div className="uppercase tracking-wide text-2xl text-grey-700 font-semibold"> */}
+        <h1 className="text-5xl text-black dark:text-white">
+            registration
+          </h1>
+          <Formik
+            initialValues={{
+              teamName: '',
+              members: [''],
+              emails: [''],
+              languageID: 1,
+              ai: false,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form className="block mt-1 text-lg leading-tight font-medium text-black dark:text-white">
+              <div className="mb-4">
+                <label htmlFor="teamname" className="block font-medium text-black dark:text-white mt-6">
+                  Team Name
+                </label>
+                <Field
+                  type="text"
+                  id="teamname"
+                  name="teamName"
+                  className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+                />
+                <ErrorMessage name="teamName" component="div" className="text-red-500" />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="members" className="block font-medium text-black dark:text-white">
+                  Members
+                </label>
+                {members.map((member, index) => (
+                  <div key={index} className="flex space-x-2 mb-2">
+                    <Field
+                      type="text"
+                      name={`members[${index}]`}
+                      className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+                      placeholder={`Member ${index + 1}`}
+                    />
+                    <Field
+                      type="text"
+                      name={`emails[${index}]`}
+                      className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-custom_light_grey"
+                      placeholder="Email"
+                    />
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="px-4 py-2 text-sm font-medium text-black dark:text-white bg-custom_light_grey rounded-sm hover:bg-custom_green focus:outline-none focus:ring-2 focus:ring-custom_green"
+                  onClick={handleAddMember}
+                >
+                  Add Member
+                </button>
+                <ErrorMessage name="members" component="div" className="text-red-500" />
+                <ErrorMessage name="emails" component="div" className="text-red-500" />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="language" className="block font-medium text-black dark:text-white">
+                  Language
+                </label>
+                <Field
+                  as="select"
+                  id="language"
+                  name="languageID"
+                  className="mt-1 px-3 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+                >
+                  {languageOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage name="languageID" component="div" className="text-red-500" />
+              </div>
+              <div className="mb-4">
+                <div className="flex items-center">
+                  <Field
+                    type="checkbox"
+                    id="ai"
+                    name="ai"
+                    className="mr-2 text-custom_green focus:ring-custom_green"
+                  />
+                  <label htmlFor="ai" className="font-medium text-black dark:text-white">
+                    AI
+                  </label>
+                </div>
+              </div>
+              <div className="flex flex-col items-start sm:flex-row sm:items-start">
+                <button
+                  type="submit"
+                  className={buttonVariants({ variant: 'default' })}
+                >
+                  Register
+                </button>
+                <Link
+                  href="/signin"
+                  className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 text-sm font-medium text-black dark:text-white hover:text-custom_green"
+                >
+                  Already registered? Log in.
+                </Link>
+              </div>
+            </Form>
+          </Formik>
+        </div>
+        <div className="md:shrink-0 mr-16 mt-0 ml-16">
+          <BoxShadowImage
+            alt="Example Image"
+            src="registrationImage.jpg"
+            width={450}
+            height={350}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 export default Registration;
