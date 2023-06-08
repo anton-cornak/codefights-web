@@ -35,6 +35,7 @@ const EventsPage: React.FC = () => {
     }, []);
 
     const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
+    const role = typeof localStorage !== 'undefined' ? localStorage.getItem('role') : null;
 
     return (
     <div className="bg-white dark:bg-black">
@@ -48,7 +49,10 @@ const EventsPage: React.FC = () => {
                                 <h3 className='text-3xl'>{event.name}</h3>
                                 <p>{event.description}</p>
                                 <img src={event.photo} alt="Event" className="h-64 w-132" />
+                                {/* depending on backend role needs to be adjusted(Java= ADMIN, golang=admin) */}
+                                {role === 'ADMIN' && (
                                 <StartEventButton eventId={event.eventId} token={token} />
+                        )}
                             </div>
                         ))}
                     </div>

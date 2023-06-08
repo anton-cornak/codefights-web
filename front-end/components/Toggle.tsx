@@ -1,9 +1,6 @@
-// Changing dark/light theme with button in Navbar
-
 import { useTheme } from "next-themes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function Toggle() {
   const [mounted, setMounted] = useState(false);
@@ -16,6 +13,9 @@ export default function Toggle() {
   if (!mounted) {
     return null;
   }
+
+  const lightIcon = "/moon-shape.png";
+  const darkIcon = "/whiteSun.png";
 
   return (
     <button
@@ -30,9 +30,9 @@ export default function Toggle() {
       className="opacity-75 p-6 text-xl text-black dark:text-white"
     >
       {theme === "light" ? (
-        <FontAwesomeIcon icon={faMoon} />
+        <Image src={lightIcon} alt="Moon Icon" width={24} height={24} />
       ) : (
-        <FontAwesomeIcon icon={faSun} />
+        <Image src={darkIcon} alt="Sun Icon" width={24} height={24}/>
       )}
     </button>
   );

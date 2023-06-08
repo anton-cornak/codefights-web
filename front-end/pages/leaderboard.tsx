@@ -43,7 +43,7 @@ export default function LeaderBoard({
   }, []);
 
   return (
-    <div className="bg-white dark:bg-black">
+    <div className="bg-white dark:bg-black text-black dark:text-white">
       {/* head */}
       <Head />
       {/* head */}
@@ -55,7 +55,7 @@ export default function LeaderBoard({
       {/* top-teamName-score */}
 
       {/* ranking */}
-      <table className="text-color1 w-full">
+      <table className="text-black dark:text-white w-full">
         <thead>
           <tr className="text-2xl">
             <th className="p-1">Top 1-{leaderboardData.length}</th>
